@@ -15,11 +15,14 @@ protocol MovieListViewControllerProtocol: AnyObject {
 class MovieListViewController: BaseViewController {
    
     // MARK: - Variables
+    
     var movieListData: MovieListBaseModel?
     var movieData: [MovieListModel?] = []
     var loadMoreFooter = LoadMoreCollectionReusableView()
     var currentPage = 1
     var shouldRefresh = false
+    var searchResults: [MovieListModel?] = []
+    var displayedData: [MovieListModel?] = []
     // MARK: - Constants
     
     private struct Constants {
@@ -61,14 +64,10 @@ class MovieListViewController: BaseViewController {
         interactor?.fetchPopularMovies(pageNo: currentPage)
         setupCollectionViewLayout()
         registerElements()
-        if let cancelButton = searchBar.value(forKey: "cancelButton") as? UIButton {
-            cancelButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("buttonTapped")))
-        }
+        searchBar.delegate = self
+        searchBar.setShowsCancelButton(false, animated: true)
     }
     
-   @objc func buttonTapped(){
-    view.endEditing(true)
-   }
     // MARK: - Setup CollectionView
 
     func setupCollectionViewLayout() {
@@ -117,14 +116,14 @@ extension MovieListViewController: UICollectionViewDataSource, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return movieData.count
+        return displayedData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let movieCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieListCollectionViewCell", for: indexPath) as! MovieListCollectionViewCell
-        movieCell.movieListCollectionCellData = movieData[indexPath.item]
-        if determineLiked(id: movieData[indexPath.item]?.id) {
+        movieCell.movieListCollectionCellData = displayedData[indexPath.item]
+        if determineLiked(id: displayedData[indexPath.item]?.id) {
             movieCell.starOuterView.isHidden = false
         } else {
             movieCell.starOuterView.isHidden = true
@@ -155,7 +154,7 @@ extension MovieListViewController: UICollectionViewDataSource, UICollectionViewD
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let detailVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MovieDetailViewController") as? MovieDetailViewController {
-            detailVC.movieData = movieData[indexPath.item]
+            detailVC.movieData = displayedData[indexPath.item]
             detailVC.likedDelegate = self
             self.navigationController?.pushViewController(detailVC, animated: true)
         }
@@ -170,6 +169,7 @@ extension MovieListViewController: MovieListViewControllerProtocol {
         DispatchQueue.main.async {
             self.movieListData = model
             self.movieData.append(contentsOf: model.results)
+            self.displayedData = self.movieData
             self.collectionView.reloadData()
         }
     }
@@ -186,5 +186,37 @@ extension MovieListViewController: LoadMoreDelegate {
 extension MovieListViewController: UserLikedMovie {
     func userChangedLike(likeState: Bool) {
         shouldRefresh = likeState
+    }
+}
+
+// MARK: - Search Bar and Keyboard
+
+extension MovieListViewController: UISearchBarDelegate {
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        dismissKeyboard()
+        searchBar.text = ""
+        displayedData = movieData
+        collectionView.reloadData()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        if let query = searchBar.text {
+            for movie in movieData {
+                if let movieTitle = movie?.title {
+                    if movieTitle.contains(query) {
+                        searchResults.append(movie)
+                    }
+                }
+            }
+        }
+        displayedData = searchResults
+        collectionView.reloadData()
+        dismissKeyboard()
+    }
+    
+    func dismissKeyboard() {
+        view.endEditing(true)
+
     }
 }
