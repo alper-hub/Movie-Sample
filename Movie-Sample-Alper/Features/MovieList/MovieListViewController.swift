@@ -35,6 +35,7 @@ class MovieListViewController: BaseViewController {
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var errorView: UIView!
     
     // MARK: - Dependencies
     var interactor: MovieListInteractorProtocol?
@@ -64,9 +65,17 @@ class MovieListViewController: BaseViewController {
         interactor?.fetchPopularMovies(pageNo: currentPage)
         setupCollectionViewLayout()
         registerElements()
-        searchBar.delegate = self
         searchBar.setShowsCancelButton(false, animated: true)
+        errorView.isHidden = true
     }
+    
+    // MARK: - Setup UI
+    
+    func setupUI() {
+        setupCollectionViewLayout()
+        
+    }
+
     
     // MARK: - Setup CollectionView
 
@@ -91,6 +100,8 @@ class MovieListViewController: BaseViewController {
         
         let footer = UINib(nibName: "LoadMoreCollectionReusableView", bundle: nil)
         self.collectionView.register(footer, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "LoadMoreCollectionReusableView")
+        searchBar.delegate = self
+
     }
     
     func determineLiked(id: Int?) -> Bool {
@@ -193,26 +204,34 @@ extension MovieListViewController: UserLikedMovie {
 
 extension MovieListViewController: UISearchBarDelegate {
     
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(true, animated: true)
+
+    }
+    
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         dismissKeyboard()
         searchBar.text = ""
         displayedData = movieData
         collectionView.reloadData()
+        searchBar.setShowsCancelButton(false, animated: true)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let query = searchBar.text {
-            for movie in movieData {
-                if let movieTitle = movie?.title {
-                    if movieTitle.contains(query) {
-                        searchResults.append(movie)
+                for movie in movieData {
+                    if let movieTitle = movie?.title {
+                        if movieTitle.contains(query) {
+                            searchResults.append(movie)
+                        }
                     }
                 }
-            }
         }
         displayedData = searchResults
         collectionView.reloadData()
         dismissKeyboard()
+        searchBar.setShowsCancelButton(false, animated: true)
+        
     }
     
     func dismissKeyboard() {

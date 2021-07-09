@@ -38,16 +38,46 @@
                                     <navigationItem title="Content" id="wEB-l9-On1"/>
                                 </items>
                             </navigationBar>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Ld-38-GG7">
+                                <rect key="frame" x="0.0" y="139" width="414" height="757"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="errorImage" translatesAutoresizingMaskIntoConstraints="NO" id="O5O-7j-xTg">
+                                        <rect key="frame" x="40" y="250" width="334" height="150"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="O5O-7j-xTg" secondAttribute="height" multiplier="167:75" id="57z-c5-YIo"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sorry, no results found" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gcw-Gi-yD7">
+                                        <rect key="frame" x="81" y="450" width="252" height="29.5"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="25"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="O5O-7j-xTg" firstAttribute="leading" secondItem="0Ld-38-GG7" secondAttribute="leading" constant="40" id="9aI-zT-iNb"/>
+                                    <constraint firstAttribute="trailing" secondItem="O5O-7j-xTg" secondAttribute="trailing" constant="40" id="BKN-zL-hLQ"/>
+                                    <constraint firstItem="O5O-7j-xTg" firstAttribute="top" secondItem="0Ld-38-GG7" secondAttribute="top" constant="250" id="MN6-tw-5sR"/>
+                                    <constraint firstItem="O5O-7j-xTg" firstAttribute="centerX" secondItem="0Ld-38-GG7" secondAttribute="centerX" id="TF7-Be-095"/>
+                                    <constraint firstItem="gcw-Gi-yD7" firstAttribute="top" secondItem="O5O-7j-xTg" secondAttribute="bottom" constant="50" id="WLE-uH-vDE"/>
+                                    <constraint firstItem="gcw-Gi-yD7" firstAttribute="centerX" secondItem="0Ld-38-GG7" secondAttribute="centerX" id="o0i-Mf-f3c"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="0Ld-38-GG7" secondAttribute="bottom" id="2Oj-4n-3rF"/>
+                            <constraint firstItem="0Ld-38-GG7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="6K9-1v-6fD"/>
                             <constraint firstItem="0i7-GD-QUb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Eo4-LX-kBH"/>
                             <constraint firstItem="X8H-kG-uDQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="FNh-qz-w18"/>
                             <constraint firstItem="B02-lz-iPp" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Pbx-zt-8Kl"/>
                             <constraint firstItem="0i7-GD-QUb" firstAttribute="top" secondItem="B02-lz-iPp" secondAttribute="bottom" id="PvZ-Xc-C9e"/>
                             <constraint firstItem="0i7-GD-QUb" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="WgB-JQ-8LQ"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="0Ld-38-GG7" secondAttribute="trailing" id="f8c-P0-8Xt"/>
                             <constraint firstAttribute="bottom" secondItem="X8H-kG-uDQ" secondAttribute="bottom" id="lMU-BP-fX9"/>
+                            <constraint firstItem="0Ld-38-GG7" firstAttribute="top" secondItem="0i7-GD-QUb" secondAttribute="bottom" id="m7K-TQ-ppD"/>
                             <constraint firstItem="X8H-kG-uDQ" firstAttribute="top" secondItem="0i7-GD-QUb" secondAttribute="bottom" id="o6M-4Y-dIi"/>
                             <constraint firstItem="B02-lz-iPp" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="tNq-R3-5SR"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="X8H-kG-uDQ" secondAttribute="trailing" id="txo-xH-9yV"/>
@@ -57,6 +87,7 @@
                     <navigationItem key="navigationItem" id="5me-ws-45H"/>
                     <connections>
                         <outlet property="collectionView" destination="X8H-kG-uDQ" id="hY1-e7-3GA"/>
+                        <outlet property="errorView" destination="0Ld-38-GG7" id="3Qx-dY-u68"/>
                         <outlet property="searchBar" destination="0i7-GD-QUb" id="cLs-Cs-kCn"/>
                     </connections>
                 </viewController>
@@ -184,6 +215,7 @@
     </scenes>
     <resources>
         <image name="chevron.backward" catalog="system" width="96" height="128"/>
+        <image name="errorImage" width="110" height="61.5"/>
         <image name="star" catalog="system" width="128" height="116"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
