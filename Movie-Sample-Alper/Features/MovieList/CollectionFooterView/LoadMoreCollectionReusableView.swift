@@ -19,6 +19,7 @@ class LoadMoreCollectionReusableView: UICollectionReusableView {
    
     override func awakeFromNib() {
         super.awakeFromNib()
+        loadMoreButtonOutlet.layer.cornerRadius = 10
     }
     
     @IBAction func loadMoreButtonPressed(_ sender: Any) {

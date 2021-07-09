@@ -19,6 +19,7 @@ class MovieListViewController: BaseViewController {
     var movieData: [MovieListModel?] = []
     var loadMoreFooter = LoadMoreCollectionReusableView()
     var currentPage = 1
+    var shouldRefresh = false
     // MARK: - Constants
     
     private struct Constants {
@@ -29,6 +30,7 @@ class MovieListViewController: BaseViewController {
 
     // MARK: - Outlets
     
+    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collectionView: UICollectionView!
     
     // MARK: - Dependencies
@@ -48,12 +50,25 @@ class MovieListViewController: BaseViewController {
     
     // MARK: - LifeCycle
     
+    override func viewWillAppear(_ animated: Bool) {
+        if shouldRefresh {
+            collectionView.reloadData()
+        } 
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         interactor?.fetchPopularMovies(pageNo: currentPage)
         setupCollectionViewLayout()
         registerElements()
+        if let cancelButton = searchBar.value(forKey: "cancelButton") as? UIButton {
+            cancelButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("buttonTapped")))
+        }
     }
+    
+   @objc func buttonTapped(){
+    view.endEditing(true)
+   }
     // MARK: - Setup CollectionView
 
     func setupCollectionViewLayout() {
@@ -78,6 +93,20 @@ class MovieListViewController: BaseViewController {
         let footer = UINib(nibName: "LoadMoreCollectionReusableView", bundle: nil)
         self.collectionView.register(footer, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "LoadMoreCollectionReusableView")
     }
+    
+    func determineLiked(id: Int?) -> Bool {
+        let defaults = UserDefaults.standard
+        if let likedMovies = defaults.array(forKey: "likedMovieIds") {
+            let likedIds = likedMovies as! [Int]
+            if likedIds.contains(id ?? 0) {
+                return true
+            } else {
+                return false
+            }
+        } else {
+            return false
+        }
+    }
 }
 
 // MARK: - Collection View Methods
@@ -95,6 +124,12 @@ extension MovieListViewController: UICollectionViewDataSource, UICollectionViewD
         
         let movieCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieListCollectionViewCell", for: indexPath) as! MovieListCollectionViewCell
         movieCell.movieListCollectionCellData = movieData[indexPath.item]
+        if determineLiked(id: movieData[indexPath.item]?.id) {
+            movieCell.starOuterView.isHidden = false
+        } else {
+            movieCell.starOuterView.isHidden = true
+
+        }
         return movieCell
     }
     
@@ -116,7 +151,14 @@ extension MovieListViewController: UICollectionViewDataSource, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: Constants.screenWidth * 0.05, bottom: 0 , right: Constants.screenWidth * 0.05)
+        return UIEdgeInsets(top: 20, left: Constants.screenWidth * 0.05, bottom: 0 , right: Constants.screenWidth * 0.05)
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let detailVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MovieDetailViewController") as? MovieDetailViewController {
+            detailVC.movieData = movieData[indexPath.item]
+            detailVC.likedDelegate = self
+            self.navigationController?.pushViewController(detailVC, animated: true)
+        }
     }
 }
 
@@ -141,3 +183,8 @@ extension MovieListViewController: LoadMoreDelegate {
     }
 }
 
+extension MovieListViewController: UserLikedMovie {
+    func userChangedLike(likeState: Bool) {
+        shouldRefresh = likeState
+    }
+}

@@ -17,4 +17,7 @@ struct MovieListBaseModel: Codable {
 struct MovieListModel: Codable {
     var title: String?
     var poster_path: String?
+    var id: Int?
+    var overview: String?
+    var vote_count: Int?
 }

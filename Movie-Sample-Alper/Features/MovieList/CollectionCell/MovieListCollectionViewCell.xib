@@ -31,6 +31,24 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wsX-cy-f7M">
+                                <rect key="frame" x="150" y="10" width="40" height="40"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="2Hs-Pf-2ie">
+                                        <rect key="frame" x="5" y="4.5" width="30" height="30"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="4x0-Nz-jc8"/>
+                                    <constraint firstAttribute="height" constant="40" id="5Kg-VH-FAD"/>
+                                    <constraint firstAttribute="bottom" secondItem="2Hs-Pf-2ie" secondAttribute="bottom" constant="5" id="LiQ-Sp-11g"/>
+                                    <constraint firstItem="2Hs-Pf-2ie" firstAttribute="leading" secondItem="wsX-cy-f7M" secondAttribute="leading" constant="5" id="TTO-Qt-xzf"/>
+                                    <constraint firstItem="2Hs-Pf-2ie" firstAttribute="top" secondItem="wsX-cy-f7M" secondAttribute="top" constant="5" id="bXl-P7-KDy"/>
+                                    <constraint firstAttribute="trailing" secondItem="2Hs-Pf-2ie" secondAttribute="trailing" constant="5" id="yv3-zp-pxH"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -38,9 +56,11 @@
                             <constraint firstItem="iQd-9V-YOZ" firstAttribute="top" secondItem="oas-L9-vgj" secondAttribute="top" id="9wd-ep-FEa"/>
                             <constraint firstItem="FJj-jW-qha" firstAttribute="leading" secondItem="oas-L9-vgj" secondAttribute="leading" constant="10" id="N2v-Vc-meG"/>
                             <constraint firstAttribute="bottom" secondItem="FJj-jW-qha" secondAttribute="bottom" constant="35" id="VCq-80-eyI"/>
+                            <constraint firstItem="wsX-cy-f7M" firstAttribute="top" secondItem="oas-L9-vgj" secondAttribute="top" constant="10" id="eEB-ci-Vy5"/>
                             <constraint firstAttribute="trailing" secondItem="FJj-jW-qha" secondAttribute="trailing" constant="10" id="ghC-DR-xVm"/>
                             <constraint firstAttribute="trailing" secondItem="iQd-9V-YOZ" secondAttribute="trailing" id="jcg-kd-oxy"/>
                             <constraint firstItem="FJj-jW-qha" firstAttribute="top" secondItem="iQd-9V-YOZ" secondAttribute="bottom" constant="30" id="tUJ-ig-ouc"/>
+                            <constraint firstAttribute="trailing" secondItem="wsX-cy-f7M" secondAttribute="trailing" constant="10" id="xuY-yp-aCm"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -57,8 +77,12 @@
                 <outlet property="movieImage" destination="iQd-9V-YOZ" id="MIh-NS-KzT"/>
                 <outlet property="movieTitle" destination="FJj-jW-qha" id="Uc0-CM-Ftj"/>
                 <outlet property="outerView" destination="oas-L9-vgj" id="lkR-9E-vNK"/>
+                <outlet property="starOuterView" destination="wsX-cy-f7M" id="Hcy-ii-5Pb"/>
             </connections>
             <point key="canvasLocation" x="163.768115942029" y="77.34375"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="star.fill" catalog="system" width="128" height="116"/>
+    </resources>
 </document>
