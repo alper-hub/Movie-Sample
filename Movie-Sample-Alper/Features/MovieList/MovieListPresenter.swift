@@ -9,6 +9,7 @@ import Foundation
 
 protocol MovieListPresenterProtocol: AnyObject {
     func presentPopularMovies(model: MovieListBaseModel)
+    func presentFail(error: Error?)
 }
 
 class MovieListPresenter: MovieListPresenterProtocol {
@@ -18,5 +19,9 @@ class MovieListPresenter: MovieListPresenterProtocol {
     
     func presentPopularMovies(model: MovieListBaseModel) {
         viewController?.showPopularMovies(model: model)
+    }
+    
+    func presentFail(error: Error?) {
+        viewController?.showFail(error: error)
     }
 }

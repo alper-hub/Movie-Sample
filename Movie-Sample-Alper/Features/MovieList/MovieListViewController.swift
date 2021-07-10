@@ -10,6 +10,7 @@ import UIKit
 protocol MovieListViewControllerProtocol: AnyObject {
     
     func showPopularMovies(model: MovieListBaseModel)
+    func showFail(error: Error?)
 }
 
 class MovieListViewController: BaseViewController {
@@ -67,6 +68,7 @@ class MovieListViewController: BaseViewController {
         registerElements()
         searchBar.setShowsCancelButton(false, animated: true)
         errorView.isHidden = true
+        
     }
     
     // MARK: - Setup UI
@@ -144,10 +146,15 @@ extension MovieListViewController: UICollectionViewDataSource, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-            
-            loadMoreFooter = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "LoadMoreCollectionReusableView", for: indexPath) as! LoadMoreCollectionReusableView
+        
+        loadMoreFooter = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "LoadMoreCollectionReusableView", for: indexPath) as! LoadMoreCollectionReusableView
         loadMoreFooter.delegate = self
-            return loadMoreFooter
+        if displayedData.count == movieData.count  {
+            loadMoreFooter.loadMoreButtonOutlet.isHidden = false
+        } else {
+            loadMoreFooter.loadMoreButtonOutlet.isHidden = true
+        }
+        return loadMoreFooter
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
@@ -175,13 +182,23 @@ extension MovieListViewController: UICollectionViewDataSource, UICollectionViewD
 // MARK: - Show Data
 
 extension MovieListViewController: MovieListViewControllerProtocol {
-    
+
     func showPopularMovies(model: MovieListBaseModel) {
         DispatchQueue.main.async {
             self.movieListData = model
             self.movieData.append(contentsOf: model.results)
             self.displayedData = self.movieData
             self.collectionView.reloadData()
+        }
+    }
+    
+    func showFail(error: Error?) {
+       
+        DispatchQueue.main.async {
+            self.errorView.isHidden = false
+            let alert = UIAlertController(title: "Oops!", message: error?.localizedDescription, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+            self.present(alert, animated: true)
         }
     }
 }
@@ -206,36 +223,62 @@ extension MovieListViewController: UISearchBarDelegate {
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.setShowsCancelButton(true, animated: true)
-
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        runSearch(searchText: searchText)
+        if searchText == "" {
+            restoreSearchResults()
+        }
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        errorView.isHidden = true
+        if displayedData.count == movieData.count {
+        } else {
+            displayedData = movieData
+            collectionView.reloadData()
+        }
         dismissKeyboard()
         searchBar.text = ""
-        displayedData = movieData
-        collectionView.reloadData()
         searchBar.setShowsCancelButton(false, animated: true)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        runSearch(searchText: searchBar.text)
+        dismissKeyboard()
+    }
+    
+    func runSearch(searchText: String?) {
+        searchResults = []
         if let query = searchBar.text {
-                for movie in movieData {
-                    if let movieTitle = movie?.title {
-                        if movieTitle.contains(query) {
-                            searchResults.append(movie)
-                        }
+            for movie in movieData {
+                if let movieTitle = movie?.title?.lowercased() {
+                    if movieTitle.contains(query.lowercased()) {
+                        searchResults.append(movie)
+                        displayedData = searchResults
+                        collectionView.reloadData()
                     }
                 }
+            }
+            if searchResults.isEmpty {
+                errorView.isHidden = false
+                searchBar.setShowsCancelButton(true, animated: true)
+            } else {
+                errorView.isHidden = true
+                searchBar.setShowsCancelButton(false, animated: true)
+            }
         }
-        displayedData = searchResults
+    }
+    
+    func restoreSearchResults() {
+        errorView.isHidden = true
+        searchResults = []
+        displayedData = movieData
         collectionView.reloadData()
-        dismissKeyboard()
-        searchBar.setShowsCancelButton(false, animated: true)
-        
     }
     
     func dismissKeyboard() {
         view.endEditing(true)
-
     }
 }
