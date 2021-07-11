@@ -29,7 +29,7 @@ class MovieListViewController: BaseViewController {
     private struct Constants {
         static let screenWidth = UIScreen.main.bounds.width
         static let cellWidth = screenWidth * 0.425
-        static let cellHeight = cellWidth * 2
+        static let cellHeight: CGFloat = 387
     }
 
     // MARK: - Outlets
@@ -58,16 +58,14 @@ class MovieListViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         if shouldRefresh {
             collectionView.reloadData()
-        } 
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         interactor?.fetchPopularMovies(pageNo: currentPage)
-        setupCollectionViewLayout()
+        setupUI()
         registerElements()
-        searchBar.setShowsCancelButton(false, animated: true)
-        errorView.isHidden = true
         
     }
     
@@ -75,7 +73,9 @@ class MovieListViewController: BaseViewController {
     
     func setupUI() {
         setupCollectionViewLayout()
-        
+        searchBar.setShowsCancelButton(false, animated: true)
+        errorView.isHidden = true
+        showLoadingView()
     }
 
     
@@ -86,24 +86,19 @@ class MovieListViewController: BaseViewController {
         layout.scrollDirection = .vertical
         layout.sectionHeadersPinToVisibleBounds = true
         collectionView.collectionViewLayout = layout
-        self.collectionView.isPrefetchingEnabled = true
         self.collectionView.dataSource = self
         self.collectionView.reloadData()
         self.collectionView.delegate = self
-        self.collectionView.prefetchDataSource = self
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.sectionHeadersPinToVisibleBounds = true
         }
     }
     
     func registerElements() {
-        let cell = UINib(nibName: "MovieListCollectionViewCell", bundle: nil)
-        collectionView.register(cell, forCellWithReuseIdentifier: "MovieListCollectionViewCell")
-        
+        MovieListCollectionViewCell.register(to: collectionView)
         let footer = UINib(nibName: "LoadMoreCollectionReusableView", bundle: nil)
         self.collectionView.register(footer, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "LoadMoreCollectionReusableView")
         searchBar.delegate = self
-
     }
     
     func determineLiked(id: Int?) -> Bool {
@@ -123,11 +118,8 @@ class MovieListViewController: BaseViewController {
 
 // MARK: - Collection View Methods
 
-extension MovieListViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSourcePrefetching {
-    
-    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-    }
-    
+extension MovieListViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return displayedData.count
     }
@@ -170,6 +162,7 @@ extension MovieListViewController: UICollectionViewDataSource, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 20, left: Constants.screenWidth * 0.05, bottom: 0 , right: Constants.screenWidth * 0.05)
     }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let detailVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MovieDetailViewController") as? MovieDetailViewController {
             detailVC.movieData = displayedData[indexPath.item]
@@ -189,6 +182,7 @@ extension MovieListViewController: MovieListViewControllerProtocol {
             self.movieData.append(contentsOf: model.results)
             self.displayedData = self.movieData
             self.collectionView.reloadData()
+            self.clearLoadingView()
         }
     }
     
@@ -196,6 +190,7 @@ extension MovieListViewController: MovieListViewControllerProtocol {
        
         DispatchQueue.main.async {
             self.errorView.isHidden = false
+            self.clearLoadingView()
             let alert = UIAlertController(title: "Oops!", message: error?.localizedDescription, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
             self.present(alert, animated: true)
@@ -208,6 +203,7 @@ extension MovieListViewController: LoadMoreDelegate {
     func loadMorePressed() {
         currentPage += 1
         interactor?.fetchPopularMovies(pageNo: currentPage)
+        showLoadingView()
     }
 }
 
@@ -276,9 +272,5 @@ extension MovieListViewController: UISearchBarDelegate {
         searchResults = []
         displayedData = movieData
         collectionView.reloadData()
-    }
-    
-    func dismissKeyboard() {
-        view.endEditing(true)
     }
 }

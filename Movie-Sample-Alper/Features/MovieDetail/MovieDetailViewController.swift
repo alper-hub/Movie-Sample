@@ -21,6 +21,7 @@ class MovieDetailViewController: UIViewController {
     var finalLikeState = false
     var likedMovieIds: [Int?] = []
     weak var likedDelegate: UserLikedMovie?
+    
     // MARK: - Outlets
 
     @IBOutlet private weak var movieImage: UIImageView!
@@ -56,7 +57,7 @@ class MovieDetailViewController: UIViewController {
         if userLiked {
             userLiked = false
             starButton.image = UIImage(systemName: "star")
-            if var likedMovies = defaults.array(forKey: "likedMovieIds")  {
+            if let likedMovies = defaults.array(forKey: "likedMovieIds")  {
                 var likedIds = likedMovies as! [Int]
                 if let index = likedIds.firstIndex(of: (movieData?.id ?? 0)) {
                     likedIds.remove(at: index)
@@ -81,7 +82,9 @@ class MovieDetailViewController: UIViewController {
 
     func setupUI() {
         if let imagePath = movieData?.poster_path {
-            getImage(imagePath: NetworkConstants.bigImageURL + imagePath)
+            if let imageUrl = URL(string: NetworkConstants.imageURL + imagePath) {
+                movieImage.loadImage(url: imageUrl, placeholder: UIImage(named: "placeholderMovie"))
+            }
         }
         movieTitle.text = movieData?.title
         movieOverview.text = movieData?.overview

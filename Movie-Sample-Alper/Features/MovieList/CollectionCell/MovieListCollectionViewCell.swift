@@ -9,6 +9,13 @@ import UIKit
 
 class MovieListCollectionViewCell: UICollectionViewCell {
 
+    // MARK: - Constants
+
+    private struct Constants {
+        static let screenWidth = UIScreen.main.bounds.width
+        static let cellWidth = screenWidth * 0.425
+    }
+    
     // MARK: - Variables
     var movieListCollectionCellData: MovieListModel? {
         didSet {
@@ -22,6 +29,8 @@ class MovieListCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var movieImage: UIImageView!
     @IBOutlet private weak var movieTitle: UILabel!
     @IBOutlet weak var starOuterView: UIView!
+    @IBOutlet weak var cellWidth: NSLayoutConstraint!
+    @IBOutlet weak var cellHeight: NSLayoutConstraint!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -32,13 +41,15 @@ class MovieListCollectionViewCell: UICollectionViewCell {
         outerView.layer.cornerRadius = 10
         movieImage.layer.cornerRadius = 10
         starOuterView.layer.cornerRadius = 0.5 * starOuterView.bounds.size.width
-
+        cellWidth.constant = Constants.cellWidth
     }
     
     func fillFields() {
         movieTitle.text = movieListCollectionCellData?.title
         if let imagePath = movieListCollectionCellData?.poster_path {
-            getImage(imagePath: NetworkConstants.imageURL + imagePath)
+            if let imageUrl = URL(string: NetworkConstants.imageURL + imagePath) {
+                movieImage.loadImage(url: imageUrl, placeholder: UIImage(named: "placeholderMovie"))
+            }
         }
     }
     
