@@ -58,10 +58,11 @@ class MovieDetailViewController: UIViewController {
             userLiked = false
             starButton.image = UIImage(systemName: "star")
             if let likedMovies = defaults.array(forKey: "likedMovieIds")  {
-                var likedIds = likedMovies as! [Int]
+                guard let likedIds: [Int] = likedMovies as? [Int] else {return}
+                var temporaryArray = likedIds
                 if let index = likedIds.firstIndex(of: (movieData?.id ?? 0)) {
-                    likedIds.remove(at: index)
-                    defaults.set(likedIds, forKey: "likedMovieIds")
+                    temporaryArray.remove(at: index)
+                    defaults.set(temporaryArray, forKey: "likedMovieIds")
                 }
             }
         } else {
@@ -69,7 +70,7 @@ class MovieDetailViewController: UIViewController {
             starButton.image = UIImage(systemName: "star.fill")
 
             if var likedMovies = defaults.array(forKey: "likedMovieIds") {
-                likedMovies.append(movieData?.id)
+                likedMovies.append(movieData?.id as Any)
                 defaults.set(likedMovies, forKey: "likedMovieIds")
             } else {
                 likedMovieIds.append(movieData?.id)
@@ -103,18 +104,7 @@ class MovieDetailViewController: UIViewController {
             }
         }
     }
-    
-    func getImage(imagePath: String) {
-        let url = URL(string: imagePath)!
-        DispatchQueue.global().async {
-            if let data = try? Data(contentsOf: url) {
-                DispatchQueue.main.async {
-                    self.movieImage.image = UIImage(data: data)
-                }
-            }
-        }
-    }
-    
+        
     func didLikeChange() -> Bool {
         if initialLikeState == finalLikeState {
             return false

@@ -53,15 +53,5 @@ class MovieListCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func getImage(imagePath: String) {
-        let url = URL(string: imagePath)!
-        DispatchQueue.global().async {
-            if let data = try? Data(contentsOf: url) {
-                DispatchQueue.main.async {
-                    self.movieImage.image = UIImage(data: data)
-                }
-            }
-        }
-    }
 }
 

@@ -27,16 +27,18 @@ class MovieListViewController: BaseViewController {
     // MARK: - Constants
     
     private struct Constants {
+        static let cellHeightMultiplier: CGFloat = 0.05
+        static let cellWidthMultiplier: CGFloat = 0.425
         static let screenWidth = UIScreen.main.bounds.width
-        static let cellWidth = screenWidth * 0.425
+        static let cellWidth = screenWidth * Constants.cellWidthMultiplier
         static let cellHeight: CGFloat = 387
     }
 
     // MARK: - Outlets
     
-    @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var errorView: UIView!
+    @IBOutlet private weak var searchBar: UISearchBar!
+    @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var errorView: UIView!
     
     // MARK: - Dependencies
     var interactor: MovieListInteractorProtocol?
@@ -96,8 +98,7 @@ class MovieListViewController: BaseViewController {
     
     func registerElements() {
         MovieListCollectionViewCell.register(to: collectionView)
-        let footer = UINib(nibName: "LoadMoreCollectionReusableView", bundle: nil)
-        self.collectionView.register(footer, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "LoadMoreCollectionReusableView")
+        LoadMoreCollectionReusableView.registerForFooter(to: collectionView)
         searchBar.delegate = self
     }
     
@@ -160,7 +161,7 @@ extension MovieListViewController: UICollectionViewDataSource, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 20, left: Constants.screenWidth * 0.05, bottom: 0 , right: Constants.screenWidth * 0.05)
+        return UIEdgeInsets(top: 20, left: Constants.screenWidth * Constants.cellHeightMultiplier, bottom: 0 , right: Constants.screenWidth * Constants.cellHeightMultiplier)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
