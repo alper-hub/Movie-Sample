@@ -42,7 +42,7 @@ class MovieListViewController: BaseViewController {
     
     // MARK: - Dependencies
     var interactor: MovieListInteractorProtocol?
-    
+    var presenter: MovieListPresenterProtocol?
     // MARK: - Initialization
 
     override func setup() {
@@ -52,7 +52,9 @@ class MovieListViewController: BaseViewController {
         
         movieListlPresenter.viewController = self
         movieListInteractor.presenter = movieListlPresenter
+        movieListlPresenter.interactor = movieListInteractor
         self.interactor = movieListInteractor
+        self.presenter = movieListlPresenter
     }
     
     // MARK: - LifeCycle
@@ -65,11 +67,11 @@ class MovieListViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        interactor?.fetchPopularMovies(pageNo: currentPage)
         setupUI()
         registerElements()
-        
+        presenter?.fetchMovies(pageNo: currentPage)
     }
+    
     
     // MARK: - Setup UI
     
@@ -203,7 +205,7 @@ extension MovieListViewController: LoadMoreDelegate {
     
     func loadMorePressed() {
         currentPage += 1
-        interactor?.fetchPopularMovies(pageNo: currentPage)
+        presenter?.fetchMovies(pageNo: currentPage)
         showLoadingView()
     }
 }
