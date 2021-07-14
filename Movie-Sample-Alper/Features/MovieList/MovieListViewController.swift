@@ -31,7 +31,10 @@ class MovieListViewController: BaseViewController {
         static let cellWidthMultiplier: CGFloat = 0.425
         static let screenWidth = UIScreen.main.bounds.width
         static let cellWidth = screenWidth * Constants.cellWidthMultiplier
-        static let cellHeight: CGFloat = 387
+        static let cellHeight: CGFloat = Constants.cellWidth * 2
+        static let footerHeight: CGFloat = 50
+        static let topInset: CGFloat = 20
+        static let bottomInset: CGFloat = 0
     }
 
     // MARK: - Outlets
@@ -153,7 +156,7 @@ extension MovieListViewController: UICollectionViewDataSource, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        let size : CGSize = CGSize.init(width: Constants.screenWidth, height: 50)
+        let size : CGSize = CGSize.init(width: Constants.screenWidth, height: Constants.footerHeight)
         return size
         
     }
@@ -163,7 +166,7 @@ extension MovieListViewController: UICollectionViewDataSource, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 20, left: Constants.screenWidth * Constants.cellHeightMultiplier, bottom: 0 , right: Constants.screenWidth * Constants.cellHeightMultiplier)
+        return UIEdgeInsets(top: Constants.topInset, left: Constants.screenWidth * Constants.cellHeightMultiplier, bottom: Constants.bottomInset, right: Constants.screenWidth * Constants.cellHeightMultiplier)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
