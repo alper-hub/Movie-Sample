@@ -27,6 +27,8 @@
 		555665C126961FFD003BF335 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555665C026961FFD003BF335 /* BaseViewController.swift */; };
 		555665C5269707A4003BF335 /* LoadMoreCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555665C3269707A4003BF335 /* LoadMoreCollectionReusableView.swift */; };
 		555665C6269707A4003BF335 /* LoadMoreCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 555665C4269707A4003BF335 /* LoadMoreCollectionReusableView.xib */; };
+		555F4982269AF57000130241 /* ImageViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555F4981269AF57000130241 /* ImageViewExtensions.swift */; };
+		555F4984269AF58900130241 /* CollectionViewCellExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555F4983269AF58800130241 /* CollectionViewCellExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +75,8 @@
 		555665C026961FFD003BF335 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		555665C3269707A4003BF335 /* LoadMoreCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMoreCollectionReusableView.swift; sourceTree = "<group>"; };
 		555665C4269707A4003BF335 /* LoadMoreCollectionReusableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadMoreCollectionReusableView.xib; sourceTree = "<group>"; };
+		555F4981269AF57000130241 /* ImageViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewExtensions.swift; sourceTree = "<group>"; };
+		555F4983269AF58800130241 /* CollectionViewCellExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCellExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +127,7 @@
 		5556656E2695EE48003BF335 /* Movie-Sample-Alper */ = {
 			isa = PBXGroup;
 			children = (
+				555F497F269AF53000130241 /* Extensions */,
 				5556657D2695EE4B003BF335 /* Info.plist */,
 				555665B42695FDCB003BF335 /* Shared */,
 				555665A42695F2C1003BF335 /* Supporting Files */,
@@ -250,6 +255,15 @@
 				555665C4269707A4003BF335 /* LoadMoreCollectionReusableView.xib */,
 			);
 			path = CollectionFooterView;
+			sourceTree = "<group>";
+		};
+		555F497F269AF53000130241 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				555F4981269AF57000130241 /* ImageViewExtensions.swift */,
+				555F4983269AF58800130241 /* CollectionViewCellExtensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -389,7 +403,9 @@
 				555665B32695F4B0003BF335 /* MovieDetailPresenter.swift in Sources */,
 				555665702695EE48003BF335 /* AppDelegate.swift in Sources */,
 				555665AD2695F414003BF335 /* MovieListViewController.swift in Sources */,
+				555F4984269AF58900130241 /* CollectionViewCellExtensions.swift in Sources */,
 				555665C126961FFD003BF335 /* BaseViewController.swift in Sources */,
+				555F4982269AF57000130241 /* ImageViewExtensions.swift in Sources */,
 				555665722695EE48003BF335 /* SceneDelegate.swift in Sources */,
 				555665BE26960909003BF335 /* MovieListModel.swift in Sources */,
 				555665C5269707A4003BF335 /* LoadMoreCollectionReusableView.swift in Sources */,

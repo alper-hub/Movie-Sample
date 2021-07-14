@@ -29,6 +29,9 @@ class MovieListInteractor: MovieListInteractorProtocol  {
                         print(error.localizedDescription)
                     }
                 }
+                if let err = error {
+                    self.presenter?.presentFail(error: error)
+                }
             }.resume()
         }
     }
