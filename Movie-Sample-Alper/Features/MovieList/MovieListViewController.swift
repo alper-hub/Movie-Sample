@@ -40,7 +40,7 @@ class MovieListViewController: BaseViewController {
     // MARK: - Outlets
     
     @IBOutlet private weak var searchBar: UISearchBar!
-    @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet private weak var errorView: UIView!
     
     // MARK: - Dependencies

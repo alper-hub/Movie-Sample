@@ -29,6 +29,7 @@
 		555665C6269707A4003BF335 /* LoadMoreCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 555665C4269707A4003BF335 /* LoadMoreCollectionReusableView.xib */; };
 		555F4982269AF57000130241 /* ImageViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555F4981269AF57000130241 /* ImageViewExtensions.swift */; };
 		555F4984269AF58900130241 /* CollectionViewCellExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555F4983269AF58800130241 /* CollectionViewCellExtensions.swift */; };
+		556E5521269F07D200464FE0 /* MovieListViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556E5520269F07D200464FE0 /* MovieListViewControllerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,7 @@
 		555665C4269707A4003BF335 /* LoadMoreCollectionReusableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadMoreCollectionReusableView.xib; sourceTree = "<group>"; };
 		555F4981269AF57000130241 /* ImageViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewExtensions.swift; sourceTree = "<group>"; };
 		555F4983269AF58800130241 /* CollectionViewCellExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCellExtensions.swift; sourceTree = "<group>"; };
+		556E5520269F07D200464FE0 /* MovieListViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListViewControllerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +145,7 @@
 			children = (
 				555665862695EE4B003BF335 /* Movie_Sample_AlperTests.swift */,
 				555665882695EE4B003BF335 /* Info.plist */,
+				556E5520269F07D200464FE0 /* MovieListViewControllerTests.swift */,
 			);
 			path = "Movie-Sample-AlperTests";
 			sourceTree = "<group>";
@@ -421,6 +424,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				555665872695EE4B003BF335 /* Movie_Sample_AlperTests.swift in Sources */,
+				556E5521269F07D200464FE0 /* MovieListViewControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
