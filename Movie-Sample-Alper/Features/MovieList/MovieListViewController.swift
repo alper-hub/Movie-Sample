@@ -17,7 +17,6 @@ class MovieListViewController: BaseViewController {
    
     // MARK: - Variables
     
-    var movieListData: MovieListBaseModel?
     var movieData: [MovieListModel?] = []
     var loadMoreFooter = LoadMoreCollectionReusableView()
     var currentPage = 1
@@ -110,8 +109,8 @@ class MovieListViewController: BaseViewController {
     
     func determineLiked(id: Int?) -> Bool {
         let defaults = UserDefaults.standard
-        if let likedMovies = defaults.array(forKey: "likedMovieIds") {
-            let likedIds = likedMovies as! [Int]
+        if let likedMovies = defaults.array(forKey: "favouriteMoviesArray") {
+            guard let likedIds = likedMovies as? [Int] else {return false}
             if likedIds.contains(id ?? 0) {
                 return true
             } else {
@@ -188,10 +187,10 @@ extension MovieListViewController: MovieListViewControllerProtocol {
 
     func showPopularMovies(model: MovieListBaseModel) {
         DispatchQueue.main.async {
-            self.movieListData = model
             self.movieData.append(contentsOf: model.results)
             self.displayedData = self.movieData
-            self.collectionView.reloadData()
+            let indexPath = IndexPath(row: self.movieData.count - 1, section: 0)
+            self.collectionView.insertItems(at: [indexPath])
             self.clearLoadingView()
         }
     }

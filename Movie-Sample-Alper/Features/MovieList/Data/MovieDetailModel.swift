@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MovieDetailModel: Codable {
+struct MovieDetailModel: Decodable {
     var title: String?
     var poster_path: String?
     var overview: String?

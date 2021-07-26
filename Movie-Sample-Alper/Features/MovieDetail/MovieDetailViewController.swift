@@ -84,24 +84,24 @@ class MovieDetailViewController: BaseViewController {
         if userLiked {
             userLiked = false
             starButton.image = UIImage(systemName: "star")
-            if let likedMovies = defaults.array(forKey: "likedMovieIds")  {
+            if let likedMovies = defaults.array(forKey: "favouriteMoviesArray")  {
                 guard let likedIds: [Int] = likedMovies as? [Int] else {return}
                 var temporaryArray = likedIds
                 if let index = likedIds.firstIndex(of: (movieId)) {
                     temporaryArray.remove(at: index)
-                    defaults.set(temporaryArray, forKey: "likedMovieIds")
+                    defaults.set(temporaryArray, forKey: "favouriteMoviesArray")
                 }
             }
         } else {
             userLiked = true
             starButton.image = UIImage(systemName: "star.fill")
 
-            if var likedMovies = defaults.array(forKey: "likedMovieIds") {
+            if var likedMovies = defaults.array(forKey: "favouriteMoviesArray") {
                 likedMovies.append(movieId as Any)
-                defaults.set(likedMovies, forKey: "likedMovieIds")
+                defaults.set(likedMovies, forKey: "favouriteMoviesArray")
             } else {
                 likedMovieIds.append(movieId)
-                defaults.setValue(likedMovieIds, forKey: "likedMovieIds")
+                defaults.setValue(likedMovieIds, forKey: "favouriteMoviesArray")
             }
         }
     }
@@ -115,8 +115,8 @@ class MovieDetailViewController: BaseViewController {
     
     func determineLiked() {
         let defaults = UserDefaults.standard
-        if let likedMovies = defaults.array(forKey: "likedMovieIds") {
-            let likedIds = likedMovies as! [Int]
+        if let likedMovies = defaults.array(forKey: "favouriteMoviesArray") {
+            guard let likedIds = likedMovies as? [Int] else {return}
             if likedIds.contains(movieId) {
                 self.userLiked = true
                 starButton.image = UIImage(systemName: "star.fill")

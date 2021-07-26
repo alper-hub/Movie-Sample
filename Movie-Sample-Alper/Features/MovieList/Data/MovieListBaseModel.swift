@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MovieListBaseModel: Codable {
+struct MovieListBaseModel: Decodable {
     var page: Int?
     var total_pages: Int?
     var results: [MovieListModel?]
