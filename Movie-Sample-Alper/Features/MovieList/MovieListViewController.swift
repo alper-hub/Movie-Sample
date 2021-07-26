@@ -24,6 +24,7 @@ class MovieListViewController: BaseViewController {
     var shouldRefresh = false
     var searchResults: [MovieListModel?] = []
     var displayedData: [MovieListModel?] = []
+    
     // MARK: - Constants
     
     private struct Constants {
@@ -51,13 +52,13 @@ class MovieListViewController: BaseViewController {
     override func setup() {
 
         let movieListInteractor = MovieListInteractor()
-        let movieListlPresenter = MovieListPresenter()
+        let movieListPresenter = MovieListPresenter()
         
-        movieListlPresenter.viewController = self
-        movieListInteractor.presenter = movieListlPresenter
-        movieListlPresenter.interactor = movieListInteractor
+        movieListPresenter.viewController = self
+        movieListInteractor.presenter = movieListPresenter
+        movieListPresenter.interactor = movieListInteractor
         self.interactor = movieListInteractor
-        self.presenter = movieListlPresenter
+        self.presenter = movieListPresenter
     }
     
     // MARK: - LifeCycle
@@ -171,7 +172,10 @@ extension MovieListViewController: UICollectionViewDataSource, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let detailVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MovieDetailViewController") as? MovieDetailViewController {
-            detailVC.movieData = displayedData[indexPath.item]
+            if let movieId = displayedData[indexPath.item]?.id {
+                detailVC.movieId = movieId
+            }
+            
             detailVC.likedDelegate = self
             self.navigationController?.pushViewController(detailVC, animated: true)
         }

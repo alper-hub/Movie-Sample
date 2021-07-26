@@ -30,7 +30,6 @@ class MovieListCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var movieTitle: UILabel!
     @IBOutlet weak var starOuterView: UIView!
     @IBOutlet weak var cellWidth: NSLayoutConstraint!
-    @IBOutlet weak var cellHeight: NSLayoutConstraint!
     
     override func awakeFromNib() {
         super.awakeFromNib()

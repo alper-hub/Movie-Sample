@@ -29,6 +29,8 @@
 		555665C6269707A4003BF335 /* LoadMoreCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 555665C4269707A4003BF335 /* LoadMoreCollectionReusableView.xib */; };
 		555F4982269AF57000130241 /* ImageViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555F4981269AF57000130241 /* ImageViewExtensions.swift */; };
 		555F4984269AF58900130241 /* CollectionViewCellExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555F4983269AF58800130241 /* CollectionViewCellExtensions.swift */; };
+		556E552326AF3AD200464FE0 /* MovieListBaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556E552226AF3AD200464FE0 /* MovieListBaseModel.swift */; };
+		556E552526AF3C0000464FE0 /* MovieDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556E552426AF3C0000464FE0 /* MovieDetailModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +79,8 @@
 		555665C4269707A4003BF335 /* LoadMoreCollectionReusableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadMoreCollectionReusableView.xib; sourceTree = "<group>"; };
 		555F4981269AF57000130241 /* ImageViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewExtensions.swift; sourceTree = "<group>"; };
 		555F4983269AF58800130241 /* CollectionViewCellExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCellExtensions.swift; sourceTree = "<group>"; };
+		556E552226AF3AD200464FE0 /* MovieListBaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListBaseModel.swift; sourceTree = "<group>"; };
+		556E552426AF3C0000464FE0 /* MovieDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -236,6 +240,8 @@
 			isa = PBXGroup;
 			children = (
 				555665BD26960909003BF335 /* MovieListModel.swift */,
+				556E552226AF3AD200464FE0 /* MovieListBaseModel.swift */,
+				556E552426AF3C0000464FE0 /* MovieDetailModel.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -409,6 +415,8 @@
 				555665722695EE48003BF335 /* SceneDelegate.swift in Sources */,
 				555665BE26960909003BF335 /* MovieListModel.swift in Sources */,
 				555665C5269707A4003BF335 /* LoadMoreCollectionReusableView.swift in Sources */,
+				556E552526AF3C0000464FE0 /* MovieDetailModel.swift in Sources */,
+				556E552326AF3AD200464FE0 /* MovieListBaseModel.swift in Sources */,
 				555665A82695F396003BF335 /* MovieListInteractor.swift in Sources */,
 				555665B12695F4A0003BF335 /* MovieDetailInteractor.swift in Sources */,
 				555665AF2695F489003BF335 /* MovieDetailViewController.swift in Sources */,

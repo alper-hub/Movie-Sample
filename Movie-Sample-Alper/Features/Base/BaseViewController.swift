@@ -19,7 +19,9 @@ class BaseViewController: UIViewController, BaseViewControllerProtocol {
         view.alpha = 0.6
       return view
     }()
+    
     var activityView = UIActivityIndicatorView()
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(loadingView)

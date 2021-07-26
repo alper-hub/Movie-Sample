@@ -30,7 +30,7 @@ class MovieListInteractor: MovieListInteractorProtocol  {
                     }
                 }
                 if let err = error {
-                    self.presenter?.presentFail(error: error)
+                    self.presenter?.presentFail(error: err)
                 }
             }.resume()
         }

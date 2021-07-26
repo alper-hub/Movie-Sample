@@ -1,16 +1,17 @@
 //
-//  MovieListModel.swift
+//  MovieDetailModel.swift
 //  Movie-Sample-Alper
 //
-//  Created by Alper Tufan on 7.07.2021.
+//  Created by Alper Tufan on 26.07.2021.
 //
 
 import Foundation
 
-struct MovieListModel: Codable {
+struct MovieDetailModel: Codable {
     var title: String?
     var poster_path: String?
-    var id: Int?
     var overview: String?
     var vote_count: Int?
+    var id: Int?
+
 }
