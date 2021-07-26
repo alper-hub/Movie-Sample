@@ -109,7 +109,7 @@ class MovieListViewController: BaseViewController {
     
     func determineLiked(id: Int?) -> Bool {
         let defaults = UserDefaults.standard
-        if let likedMovies = defaults.array(forKey: "favouriteMoviesArray") {
+        if let likedMovies = defaults.array(forKey: MovieAppGlobalConstants.favouriteMoviesArrayKey) {
             guard let likedIds = likedMovies as? [Int] else {return false}
             if likedIds.contains(id ?? 0) {
                 return true

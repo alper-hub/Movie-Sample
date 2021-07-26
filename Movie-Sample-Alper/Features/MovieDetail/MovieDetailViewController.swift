@@ -63,6 +63,7 @@ class MovieDetailViewController: BaseViewController {
         super.viewDidLoad()
         setupUI()
         initialLikeState = userLiked
+        showLoadingView()
         presenter?.fetchMovieDetails(movieId: movieId)
 
     }
@@ -83,25 +84,25 @@ class MovieDetailViewController: BaseViewController {
         
         if userLiked {
             userLiked = false
-            starButton.image = UIImage(systemName: "star")
-            if let likedMovies = defaults.array(forKey: "favouriteMoviesArray")  {
+            starButton.image = UIImage(systemName: MovieAppGlobalConstants.starIcon)
+            if let likedMovies = defaults.array(forKey: MovieAppGlobalConstants.favouriteMoviesArrayKey)  {
                 guard let likedIds: [Int] = likedMovies as? [Int] else {return}
                 var temporaryArray = likedIds
                 if let index = likedIds.firstIndex(of: (movieId)) {
                     temporaryArray.remove(at: index)
-                    defaults.set(temporaryArray, forKey: "favouriteMoviesArray")
+                    defaults.set(temporaryArray, forKey: MovieAppGlobalConstants.favouriteMoviesArrayKey)
                 }
             }
         } else {
             userLiked = true
-            starButton.image = UIImage(systemName: "star.fill")
+            starButton.image = UIImage(systemName: MovieAppGlobalConstants.filledStarIcon)
 
-            if var likedMovies = defaults.array(forKey: "favouriteMoviesArray") {
+            if var likedMovies = defaults.array(forKey: MovieAppGlobalConstants.favouriteMoviesArrayKey) {
                 likedMovies.append(movieId as Any)
-                defaults.set(likedMovies, forKey: "favouriteMoviesArray")
+                defaults.set(likedMovies, forKey: MovieAppGlobalConstants.favouriteMoviesArrayKey)
             } else {
                 likedMovieIds.append(movieId)
-                defaults.setValue(likedMovieIds, forKey: "favouriteMoviesArray")
+                defaults.setValue(likedMovieIds, forKey: MovieAppGlobalConstants.favouriteMoviesArrayKey)
             }
         }
     }
@@ -115,11 +116,11 @@ class MovieDetailViewController: BaseViewController {
     
     func determineLiked() {
         let defaults = UserDefaults.standard
-        if let likedMovies = defaults.array(forKey: "favouriteMoviesArray") {
+        if let likedMovies = defaults.array(forKey: MovieAppGlobalConstants.favouriteMoviesArrayKey) {
             guard let likedIds = likedMovies as? [Int] else {return}
             if likedIds.contains(movieId) {
                 self.userLiked = true
-                starButton.image = UIImage(systemName: "star.fill")
+                starButton.image = UIImage(systemName: MovieAppGlobalConstants.filledStarIcon)
             }
         }
     }
@@ -137,19 +138,21 @@ extension MovieDetailViewController: MovieDetailViewControllerProtocol {
     
     func showMovieDetails(model: MovieDetailModel?) {
         DispatchQueue.main.async {
-            
             if let imagePath = model?.poster_path {
                 if let imageUrl = URL(string: NetworkConstants.imageURL + imagePath) {
-                    self.movieImage.loadImage(url: imageUrl, placeholder: UIImage(named: "placeholderMovie"))
+                    self.movieImage.loadImage(url: imageUrl, placeholder: UIImage(named: MovieAppGlobalConstants.placeholderMovieIcon))
                 }
             }
             self.movieTitle.text = model?.title
             self.movieOverview.text = model?.overview
             self.voteCount.text = String(model?.vote_count ?? 0)
+            self.clearLoadingView()
         }
     }
     
     func showFail(error: Error?) {
-        
+        DispatchQueue.main.async {
+            self.clearLoadingView()
+        }
     }
 }

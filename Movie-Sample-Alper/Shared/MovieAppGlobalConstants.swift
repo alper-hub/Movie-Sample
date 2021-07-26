@@ -7,9 +7,11 @@
 
 import Foundation
 
-class MovieAppGlobalConstants {
+struct MovieAppGlobalConstants {
     
-    var favouriteMoviesArray: [Int] = []
-    static let sharedInstance = MovieAppGlobalConstants()
-    
+    static let favouriteMoviesArrayKey = "favouriteMoviesArray"
+    static let starIcon = "star"
+    static let filledStarIcon = "star.fill"
+    static let placeholderMovieIcon = "placeholderMovie"
+
 }
