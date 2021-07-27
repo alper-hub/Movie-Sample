@@ -121,6 +121,7 @@ class MovieDetailViewController: BaseViewController {
     private func setupUI() {
         voteCountOuterView.setRounded()
         determineLiked()
+        movieImage.layer.cornerRadius = MovieAppGlobalConstants.cornerRadiusforCellItems
     }
     
     private func determineLiked() {
@@ -154,8 +155,9 @@ extension MovieDetailViewController: MovieDetailViewControllerProtocol {
             DispatchQueue.main.async {
                 self.movieTitle.text = model?.title
                 self.movieOverview.text = model?.overview
-                self.voteCount.text = String(model?.vote_count ?? 0)
+                self.voteCount.text = MovieAppGlobalConstants.voteCountLabel + String(model?.vote_count ?? 0)
                 self.hideLoadingView()
+                self.voteCountOuterView.isHidden = false
             }
         }
     

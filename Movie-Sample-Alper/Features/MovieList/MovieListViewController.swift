@@ -253,10 +253,9 @@ extension MovieListViewController: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         errorView.isHidden = true
-        if !isSearchActive() {
-            displayedData = movieData
-            collectionView.reloadData()
-        }
+        displayedData = movieData
+        collectionView.reloadData()
+        
         dismissKeyboard()
         searchBar.text = ""
         searchBar.setShowsCancelButton(false, animated: true)
@@ -284,7 +283,6 @@ extension MovieListViewController: UISearchBarDelegate {
                 searchBar.setShowsCancelButton(true, animated: true)
             } else {
                 errorView.isHidden = true
-                searchBar.setShowsCancelButton(false, animated: true)
             }
         }
     }

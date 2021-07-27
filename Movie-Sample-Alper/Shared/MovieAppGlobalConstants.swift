@@ -17,5 +17,6 @@ struct MovieAppGlobalConstants {
     static let errorMessageOops = "Oops!"
     static let errorMessageOkay = "Okay"
     static let cornerRadiusforCellItems: CGFloat = 10
-
+    static let voteCountLabel = "Vote Count: "
+    
 }
