@@ -16,7 +16,6 @@ protocol MovieListViewControllerProtocol: AnyObject {
 class MovieListViewController: BaseViewController {
    
     // MARK: - Variables
-    
     var movieData: [MovieListModel?] = []
     var loadMoreFooter = LoadMoreCollectionReusableView()
     var currentPage = 1
@@ -164,7 +163,8 @@ extension MovieListViewController: UICollectionViewDataSource, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let movieCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieListCollectionViewCell", for: indexPath) as! MovieListCollectionViewCell
+        guard let movieCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieListCollectionViewCell", for: indexPath) as? MovieListCollectionViewCell else {return UICollectionViewCell()}
+        
         movieCell.movieListCollectionCellData = displayedData[indexPath.item]
         return movieCell
     }
@@ -216,9 +216,10 @@ extension MovieListViewController: MovieListViewControllerProtocol {
             self.movieData.append(contentsOf: model.results)
             self.setFavouriteMovies()
             self.displayedData = self.movieData
-            let indexPath = IndexPath(row: self.movieData.count - 1, section: 0)
-            self.collectionView.insertItems(at: [indexPath])
-            self.clearLoadingView()
+            UIView.performWithoutAnimation {
+                self.collectionView.reloadSections(IndexSet(integer: 0))
+                self.clearLoadingView()
+            }
         }
     }
     

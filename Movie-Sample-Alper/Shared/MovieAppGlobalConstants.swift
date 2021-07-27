@@ -13,5 +13,6 @@ struct MovieAppGlobalConstants {
     static let starIcon = "star"
     static let filledStarIcon = "star.fill"
     static let placeholderMovieIcon = "placeholderMovie"
-
+    static let errorMessageOops = "Oops!"
+    static let errorMessageOkay = "Okay"
 }
