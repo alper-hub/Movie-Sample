@@ -21,13 +21,13 @@ class MovieDetailViewController: BaseViewController {
 
     // MARK: - Variables
     
-    var movieId = 0
-    var userLiked = false
-    var initialLikeState = false
-    var finalLikeState = false
-    var likedMovieIds: [Int?] = []
-    var cellIndex: IndexPath?
-    weak var likedDelegate: UserLikedMovie?
+    private var movieId = 0
+    private var userLiked = false
+    private var initialLikeState = false
+    private var finalLikeState = false
+    private var likedMovieIds: [Int?] = []
+    private var cellIndex: IndexPath?
+    private weak var likedDelegate: UserLikedMovie?
     
     // MARK: - Outlets
     
@@ -54,8 +54,8 @@ class MovieDetailViewController: BaseViewController {
         movieDetailPresenter.viewController = self
         movieDetailInteractor.presenter = movieDetailPresenter
         movieDetailPresenter.interactor = movieDetailInteractor
-        self.interactor = movieDetailInteractor
-        self.presenter = movieDetailPresenter
+        interactor = movieDetailInteractor
+        presenter = movieDetailPresenter
     }
     
     // MARK: - LifeCycle
@@ -78,11 +78,11 @@ class MovieDetailViewController: BaseViewController {
     
     // MARK: - Actions
     
-    @IBAction func backButtonPressed(_ sender: Any) {
+    @IBAction private func backButtonPressed(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func starButtonPressed(_ sender: Any) {
+    @IBAction private func starButtonPressed(_ sender: Any) {
         let defaults = UserDefaults.standard
         
         if userLiked {
@@ -110,14 +110,20 @@ class MovieDetailViewController: BaseViewController {
         }
     }
     
+    func setMovieDetailParameters(movieId: Int, cellIndex: IndexPath, delegate: UserLikedMovie?) {
+        self.movieId = movieId
+        self.cellIndex = cellIndex
+        likedDelegate = delegate
+    }
+    
     // MARK: - SetupUI
 
-    func setupUI() {
+    private func setupUI() {
         voteCountOuterView.setRounded()
         determineLiked()
     }
     
-    func determineLiked() {
+    private func determineLiked() {
         let defaults = UserDefaults.standard
         if let likedMovies = defaults.array(forKey: MovieAppGlobalConstants.favouriteMoviesArrayKey) {
             guard let likedIds = likedMovies as? [Int] else {return}
@@ -128,7 +134,7 @@ class MovieDetailViewController: BaseViewController {
         }
     }
         
-    func didLikeChange() -> Bool {
+    private func didLikeChange() -> Bool {
         if initialLikeState == finalLikeState {
             return false
         } else {
@@ -149,13 +155,13 @@ extension MovieDetailViewController: MovieDetailViewControllerProtocol {
             self.movieTitle.text = model?.title
             self.movieOverview.text = model?.overview
             self.voteCount.text = String(model?.vote_count ?? 0)
-            self.clearLoadingView()
+            self.hideLoadingView()
         }
     }
     
     func showFail(error: Error?) {
         DispatchQueue.main.async {
-            self.clearLoadingView()
+            self.hideLoadingView()
             self.showError(error: error)
         }
     }

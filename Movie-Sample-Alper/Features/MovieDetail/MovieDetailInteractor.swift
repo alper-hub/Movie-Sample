@@ -26,11 +26,11 @@ class MovieDetailInteractor: MovieDetailInteractorProtocol  {
                         self.presenter?.presentMovieDetails(model: parsedMovieListModel)
                         
                     } catch {
-                        print(error.localizedDescription)
+                        self.presenter?.presentFail(error: error)
                     }
                 }
-                if let err = error {
-                    self.presenter?.presentFail(error: err)
+                if let networkError = error {
+                    self.presenter?.presentFail(error: networkError)
                 }
             }.resume()
         }

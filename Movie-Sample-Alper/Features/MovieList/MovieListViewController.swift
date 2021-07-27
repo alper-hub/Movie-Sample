@@ -16,11 +16,11 @@ protocol MovieListViewControllerProtocol: AnyObject {
 class MovieListViewController: BaseViewController {
    
     // MARK: - Variables
-    var movieData: [MovieListModel?] = []
-    var currentPage = 1
-    var shouldRefresh = false
-    var searchResults: [MovieListModel?] = []
-    var displayedData: [MovieListModel?] = []
+    private var movieData: [MovieListModel?] = []
+    private var currentPage = 1
+    private var shouldRefresh = false
+    private var searchResults: [MovieListModel?] = []
+    private var displayedData: [MovieListModel?] = []
     
     // MARK: - Constants
     private struct Constants {
@@ -41,8 +41,8 @@ class MovieListViewController: BaseViewController {
     // MARK: - Dependencies
     var interactor: MovieListInteractorProtocol?
     var presenter: MovieListPresenterProtocol?
+    
     // MARK: - Initialization
-
     override func setup() {
 
         let movieListInteractor = MovieListInteractor()
@@ -51,8 +51,8 @@ class MovieListViewController: BaseViewController {
         movieListPresenter.viewController = self
         movieListInteractor.presenter = movieListPresenter
         movieListPresenter.interactor = movieListInteractor
-        self.interactor = movieListInteractor
-        self.presenter = movieListPresenter
+        interactor = movieListInteractor
+        presenter = movieListPresenter
     }
     
     // MARK: - LifeCycle
@@ -62,18 +62,16 @@ class MovieListViewController: BaseViewController {
         setupUI()
         registerElements()
         presenter?.fetchMovies(pageNo: currentPage)
+        showLoadingView()
     }
     
-    
-    // MARK: - Setup UI
+    // MARK: - SetupUI
     
     func setupUI() {
         setupCollectionViewLayout()
         searchBar.setShowsCancelButton(false, animated: true)
         errorView.isHidden = true
-        showLoadingView()
     }
-
     
     // MARK: - Setup CollectionView
 
@@ -84,21 +82,23 @@ class MovieListViewController: BaseViewController {
         layout.sectionHeadersPinToVisibleBounds = true
         layout.sectionInset = UIEdgeInsets(top: 0, left: Constants.collectionViewInset, bottom: 0, right:  Constants.collectionViewInset)
         collectionView.collectionViewLayout = layout
-        self.collectionView.dataSource = self
-        self.collectionView.reloadData()
-        self.collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.reloadData()
+        collectionView.delegate = self
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.sectionHeadersPinToVisibleBounds = true
         }
     }
     
-    func registerElements() {
+    private func registerElements() {
         MovieListCollectionViewCell.register(to: collectionView)
         LoadMoreCollectionReusableView.registerForFooter(to: collectionView)
         searchBar.delegate = self
     }
     
-    func setFavorites() {
+    // MARK: - Actions
+
+    private func setFavorites() {
         if isSearchActive() {
             setFavouriteMoviesInSearch()
             displayedData = searchResults
@@ -109,7 +109,7 @@ class MovieListViewController: BaseViewController {
         }
     }
     
-    func isSearchActive() -> Bool {
+    private func isSearchActive() -> Bool {
         if searchResults.count == displayedData.count {
             return true
         } else {
@@ -117,7 +117,7 @@ class MovieListViewController: BaseViewController {
         }
     }
     
-    func setFavouriteMoviesInSearch() {
+    private func setFavouriteMoviesInSearch() {
         let defaults = UserDefaults.standard
         if let likedMovies = defaults.array(forKey: MovieAppGlobalConstants.favouriteMoviesArrayKey) {
             guard let likedIds = likedMovies as? [Int] else { return }
@@ -133,7 +133,7 @@ class MovieListViewController: BaseViewController {
         }
     }
     
-    func setFavouriteMovies() {
+    private func setFavouriteMovies() {
         let defaults = UserDefaults.standard
         if let likedMovies = defaults.array(forKey: MovieAppGlobalConstants.favouriteMoviesArrayKey) {
             guard let likedIds = likedMovies as? [Int] else { return }
@@ -160,7 +160,7 @@ extension MovieListViewController: UICollectionViewDataSource, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let movieCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieListCollectionViewCell", for: indexPath) as? MovieListCollectionViewCell else {return UICollectionViewCell()}
+        guard let movieCell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieListCollectionViewCell.typeName, for: indexPath) as? MovieListCollectionViewCell else {return UICollectionViewCell()}
         
         movieCell.movieListCollectionCellData = displayedData[indexPath.item]
         return movieCell
@@ -168,13 +168,9 @@ extension MovieListViewController: UICollectionViewDataSource, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
-        guard let loadMoreFooter = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "LoadMoreCollectionReusableView", for: indexPath) as? LoadMoreCollectionReusableView else { return UICollectionReusableView() }
+        guard let loadMoreFooter = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: LoadMoreCollectionReusableView.typeName, for: indexPath) as? LoadMoreCollectionReusableView else { return UICollectionReusableView() }
         loadMoreFooter.delegate = self
-        if displayedData.count == movieData.count  {
-            loadMoreFooter.loadMoreButton.isHidden = false
-        } else {
-            loadMoreFooter.loadMoreButton.isHidden = true
-        }
+        loadMoreFooter.setLoadMoreButtonVisibility(isHidden: isSearchActive())
         return loadMoreFooter
     }
     
@@ -183,12 +179,9 @@ extension MovieListViewController: UICollectionViewDataSource, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let detailVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MovieDetailViewController") as? MovieDetailViewController {
-            if let movieId = displayedData[indexPath.item]?.id {
-                detailVC.movieId = movieId
-            }
-            detailVC.cellIndex = indexPath
-            detailVC.likedDelegate = self
+        if let detailVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: MovieDetailViewController.typeName) as? MovieDetailViewController {
+            guard let movieId = displayedData[indexPath.item]?.id else {return}
+            detailVC.setMovieDetailParameters(movieId: movieId, cellIndex: indexPath, delegate: self)
             self.navigationController?.pushViewController(detailVC, animated: true)
         }
     }
@@ -205,7 +198,7 @@ extension MovieListViewController: MovieListViewControllerProtocol {
             self.displayedData = self.movieData
             UIView.performWithoutAnimation {
                 self.collectionView.reloadSections(IndexSet(integer: 0))
-                self.clearLoadingView()
+                self.hideLoadingView()
             }
         }
     }
@@ -214,11 +207,13 @@ extension MovieListViewController: MovieListViewControllerProtocol {
        
         DispatchQueue.main.async {
             self.errorView.isHidden = false
-            self.clearLoadingView()
+            self.hideLoadingView()
             self.showError(error: error)
         }
     }
 }
+
+// MARK: - LoadMoreButton
 
 extension MovieListViewController: LoadMoreDelegate {
     
@@ -231,11 +226,11 @@ extension MovieListViewController: LoadMoreDelegate {
 
 extension MovieListViewController: UserLikedMovie {
     func userChangedLike(likeState: Bool, cellIndex: IndexPath) {
-        self.setFavorites()
-        guard let movieCell: MovieListCollectionViewCell = self.collectionView.cellForItem(at: cellIndex) as? MovieListCollectionViewCell else {
+        setFavorites()
+        guard let movieCell: MovieListCollectionViewCell = collectionView.cellForItem(at: cellIndex) as? MovieListCollectionViewCell else {
             return
         }
-        movieCell.movieListCollectionCellData = self.movieData[cellIndex.row]
+        movieCell.movieListCollectionCellData = movieData[cellIndex.row]
         collectionView.reloadItems(at: [cellIndex])
     }
 }
@@ -249,16 +244,16 @@ extension MovieListViewController: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        runSearch(searchText: searchText)
         if searchText == "" {
             restoreSearchResults()
+        } else {
+            runSearch(searchText: searchText)
         }
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         errorView.isHidden = true
-        if displayedData.count == movieData.count {
-        } else {
+        if !isSearchActive() {
             displayedData = movieData
             collectionView.reloadData()
         }
@@ -294,7 +289,7 @@ extension MovieListViewController: UISearchBarDelegate {
         }
     }
     
-    func restoreSearchResults() {
+    private func restoreSearchResults() {
         errorView.isHidden = true
         searchResults = []
         displayedData = movieData

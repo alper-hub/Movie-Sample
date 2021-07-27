@@ -24,7 +24,7 @@ class MovieDetailPresenter: MovieDetailPresenterProtocol {
     }
     
     func presentFail(error: Error?) {
-        
+        viewController?.showFail(error: error)
     }
     
     func fetchMovieDetails(movieId: Int) {

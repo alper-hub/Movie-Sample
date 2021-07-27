@@ -28,21 +28,23 @@ class MovieListCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var movieImage: UIImageView!
     @IBOutlet private weak var movieTitle: UILabel!
     @IBOutlet private weak var starOuterView: UIView!
-    @IBOutlet weak var cellWidth: NSLayoutConstraint!
     
+    // MARK: - LifeCycle
+
     override func awakeFromNib() {
         super.awakeFromNib()
         setupUI()
     }
     
-    func setupUI() {
-        outerView.layer.cornerRadius = 10
-        movieImage.layer.cornerRadius = 10
-        starOuterView.layer.cornerRadius = 0.5 * starOuterView.bounds.size.width
-        cellWidth.constant = Constants.cellWidth
+    // MARK: - SetupUI
+
+    private func setupUI() {
+        outerView.layer.cornerRadius = MovieAppGlobalConstants.cornerRadiusforCellItems
+        movieImage.layer.cornerRadius = MovieAppGlobalConstants.cornerRadiusforCellItems
+        starOuterView.setRounded()
     }
     
-    func fillFields() {
+    private func fillFields() {
         movieTitle.text = movieListCollectionCellData?.title
         if let isFavourite = movieListCollectionCellData?.isFavoriteMovie {
             if isFavourite {
@@ -53,7 +55,7 @@ class MovieListCollectionViewCell: UICollectionViewCell {
         }
         if let imagePath = movieListCollectionCellData?.poster_path {
             if let imageUrl = URL(string: NetworkConstants.imageURL + imagePath) {
-                movieImage.loadImage(url: imageUrl, placeholder: UIImage(named: "placeholderMovie"))
+                movieImage.loadImage(url: imageUrl, placeholder: UIImage(named: MovieAppGlobalConstants.placeholderMovieIcon))
             }
         }
     }

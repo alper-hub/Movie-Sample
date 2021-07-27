@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5512EEE326B02EFB00EFD162 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5512EEE226B02EFB00EFD162 /* UIViewExtensions.swift */; };
+		5512EEE526B0722600EFD162 /* NameDescribable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5512EEE426B0722600EFD162 /* NameDescribable.swift */; };
 		555665702695EE48003BF335 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5556656F2695EE48003BF335 /* AppDelegate.swift */; };
 		555665722695EE48003BF335 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555665712695EE48003BF335 /* SceneDelegate.swift */; };
 		555665772695EE48003BF335 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 555665752695EE48003BF335 /* Main.storyboard */; };
@@ -54,6 +55,7 @@
 
 /* Begin PBXFileReference section */
 		5512EEE226B02EFB00EFD162 /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
+		5512EEE426B0722600EFD162 /* NameDescribable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameDescribable.swift; sourceTree = "<group>"; };
 		5556656C2695EE48003BF335 /* Movie-Sample-Alper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Movie-Sample-Alper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5556656F2695EE48003BF335 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		555665712695EE48003BF335 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -274,6 +276,7 @@
 				555F4981269AF57000130241 /* ImageViewExtensions.swift */,
 				555F4983269AF58800130241 /* CollectionViewCellExtensions.swift */,
 				5512EEE226B02EFB00EFD162 /* UIViewExtensions.swift */,
+				5512EEE426B0722600EFD162 /* NameDescribable.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -427,6 +430,7 @@
 				556E552326AF3AD200464FE0 /* MovieListBaseModel.swift in Sources */,
 				555665A82695F396003BF335 /* MovieListInteractor.swift in Sources */,
 				555665B12695F4A0003BF335 /* MovieDetailInteractor.swift in Sources */,
+				5512EEE526B0722600EFD162 /* NameDescribable.swift in Sources */,
 				555665AF2695F489003BF335 /* MovieDetailViewController.swift in Sources */,
 				555665AB2695F3D9003BF335 /* MovieListPresenter.swift in Sources */,
 			);

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct MovieAppGlobalConstants {
     
@@ -15,4 +16,6 @@ struct MovieAppGlobalConstants {
     static let placeholderMovieIcon = "placeholderMovie"
     static let errorMessageOops = "Oops!"
     static let errorMessageOkay = "Okay"
+    static let cornerRadiusforCellItems: CGFloat = 10
+
 }
