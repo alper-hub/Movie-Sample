@@ -59,7 +59,9 @@ class BaseViewController: UIViewController, BaseViewControllerProtocol {
     }
     
     func showError(error: Error?) {
-
+        let alert = UIAlertController(title: "Oops!", message: error?.localizedDescription, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+        self.present(alert, animated: true)
     }
     
     func dismissKeyboard() {

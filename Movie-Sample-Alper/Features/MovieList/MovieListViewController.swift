@@ -200,9 +200,7 @@ extension MovieListViewController: MovieListViewControllerProtocol {
         DispatchQueue.main.async {
             self.errorView.isHidden = false
             self.clearLoadingView()
-            let alert = UIAlertController(title: "Oops!", message: error?.localizedDescription, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
-            self.present(alert, animated: true)
+            self.showError(error: error)
         }
     }
 }

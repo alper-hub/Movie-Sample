@@ -139,7 +139,7 @@ extension MovieDetailViewController: MovieDetailViewControllerProtocol {
     func showMovieDetails(model: MovieDetailModel?) {
         DispatchQueue.main.async {
             if let imagePath = model?.poster_path {
-                if let imageUrl = URL(string: NetworkConstants.imageURL + imagePath) {
+                if let imageUrl = URL(string: NetworkConstants.bigImageURL + imagePath) {
                     self.movieImage.loadImage(url: imageUrl, placeholder: UIImage(named: MovieAppGlobalConstants.placeholderMovieIcon))
                 }
             }
@@ -153,6 +153,7 @@ extension MovieDetailViewController: MovieDetailViewControllerProtocol {
     func showFail(error: Error?) {
         DispatchQueue.main.async {
             self.clearLoadingView()
+            self.showError(error: error)
         }
     }
 }
