@@ -15,11 +15,12 @@ class LoadMoreCollectionReusableView: UICollectionReusableView {
     
     weak var delegate: LoadMoreDelegate?
 
-    @IBOutlet weak var loadMoreButtonOutlet: UIButton!
+    @IBOutlet weak var loadMoreButton: UIButton!
    
     override func awakeFromNib() {
         super.awakeFromNib()
-        loadMoreButtonOutlet.layer.cornerRadius = 10
+        loadMoreButton.setRounded()
+        
     }
     
     @IBAction func loadMoreButtonPressed(_ sender: Any) {

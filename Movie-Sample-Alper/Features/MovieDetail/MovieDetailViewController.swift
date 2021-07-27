@@ -14,7 +14,7 @@ protocol MovieDetailViewControllerProtocol: AnyObject {
 }
 
 protocol UserLikedMovie: AnyObject {
-    func userChangedLike(likeState: Bool)
+    func userChangedLike(likeState: Bool, cellIndex: IndexPath)
 }
 
 class MovieDetailViewController: BaseViewController {
@@ -26,6 +26,7 @@ class MovieDetailViewController: BaseViewController {
     var initialLikeState = false
     var finalLikeState = false
     var likedMovieIds: [Int?] = []
+    var cellIndex: IndexPath?
     weak var likedDelegate: UserLikedMovie?
     
     // MARK: - Outlets
@@ -70,7 +71,9 @@ class MovieDetailViewController: BaseViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         finalLikeState = userLiked
-        likedDelegate?.userChangedLike(likeState: didLikeChange())
+        if let indexPath = cellIndex {
+            likedDelegate?.userChangedLike(likeState: didLikeChange(), cellIndex: indexPath)
+        }
     }
     
     // MARK: - Actions
@@ -110,7 +113,7 @@ class MovieDetailViewController: BaseViewController {
     // MARK: - SetupUI
 
     func setupUI() {
-        voteCountOuterView.layer.cornerRadius = 10
+        voteCountOuterView.setRounded()
         determineLiked()
     }
     

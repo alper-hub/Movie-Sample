@@ -21,14 +21,13 @@ class MovieListCollectionViewCell: UICollectionViewCell {
         didSet {
             fillFields()
         }
-    }
-    
+    }    
     // MARK: - Outlets
 
     @IBOutlet private weak var outerView: UIView!
     @IBOutlet private weak var movieImage: UIImageView!
     @IBOutlet private weak var movieTitle: UILabel!
-    @IBOutlet weak var starOuterView: UIView!
+    @IBOutlet private weak var starOuterView: UIView!
     @IBOutlet weak var cellWidth: NSLayoutConstraint!
     
     override func awakeFromNib() {
@@ -45,6 +44,13 @@ class MovieListCollectionViewCell: UICollectionViewCell {
     
     func fillFields() {
         movieTitle.text = movieListCollectionCellData?.title
+        if let isFavourite = movieListCollectionCellData?.isFavoriteMovie {
+            if isFavourite {
+                starOuterView.isHidden = false
+            } else {
+                starOuterView.isHidden = true
+            }
+        }
         if let imagePath = movieListCollectionCellData?.poster_path {
             if let imageUrl = URL(string: NetworkConstants.imageURL + imagePath) {
                 movieImage.loadImage(url: imageUrl, placeholder: UIImage(named: "placeholderMovie"))

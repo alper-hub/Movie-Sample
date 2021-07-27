@@ -11,4 +11,5 @@ struct MovieListModel: Decodable {
     var title: String?
     var poster_path: String?
     var id: Int?
+    var isFavoriteMovie: Bool?
 }

@@ -23,7 +23,7 @@ class MovieListViewController: BaseViewController {
     var shouldRefresh = false
     var searchResults: [MovieListModel?] = []
     var displayedData: [MovieListModel?] = []
-    
+    var cellToRefresh: IndexPath?
     // MARK: - Constants
     
     private struct Constants {
@@ -64,7 +64,9 @@ class MovieListViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         if shouldRefresh {
-            collectionView.reloadData()
+            if let indexPath = cellToRefresh {
+                collectionView.reloadItems(at: [indexPath])
+            }
         }
     }
     
@@ -107,17 +109,19 @@ class MovieListViewController: BaseViewController {
         searchBar.delegate = self
     }
     
-    func determineLiked(id: Int?) -> Bool {
+    func setFavouriteMovies() {
         let defaults = UserDefaults.standard
         if let likedMovies = defaults.array(forKey: MovieAppGlobalConstants.favouriteMoviesArrayKey) {
-            guard let likedIds = likedMovies as? [Int] else {return false}
-            if likedIds.contains(id ?? 0) {
-                return true
-            } else {
-                return false
+            guard let likedIds = likedMovies as? [Int] else { return }
+            for index in movieData.indices {
+                var tempMovie = movieData[index]
+                if likedIds.contains(movieData[index]?.id ?? 0) {
+                    tempMovie?.isFavoriteMovie = true
+                } else {
+                    tempMovie?.isFavoriteMovie = false
+                }
+                movieData[index] = tempMovie
             }
-        } else {
-            return false
         }
     }
 }
@@ -134,12 +138,6 @@ extension MovieListViewController: UICollectionViewDataSource, UICollectionViewD
         
         let movieCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieListCollectionViewCell", for: indexPath) as! MovieListCollectionViewCell
         movieCell.movieListCollectionCellData = displayedData[indexPath.item]
-        if determineLiked(id: displayedData[indexPath.item]?.id) {
-            movieCell.starOuterView.isHidden = false
-        } else {
-            movieCell.starOuterView.isHidden = true
-
-        }
         return movieCell
     }
     
@@ -148,9 +146,9 @@ extension MovieListViewController: UICollectionViewDataSource, UICollectionViewD
         loadMoreFooter = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "LoadMoreCollectionReusableView", for: indexPath) as! LoadMoreCollectionReusableView
         loadMoreFooter.delegate = self
         if displayedData.count == movieData.count  {
-            loadMoreFooter.loadMoreButtonOutlet.isHidden = false
+            loadMoreFooter.loadMoreButton.isHidden = false
         } else {
-            loadMoreFooter.loadMoreButtonOutlet.isHidden = true
+            loadMoreFooter.loadMoreButton.isHidden = true
         }
         return loadMoreFooter
     }
@@ -174,7 +172,7 @@ extension MovieListViewController: UICollectionViewDataSource, UICollectionViewD
             if let movieId = displayedData[indexPath.item]?.id {
                 detailVC.movieId = movieId
             }
-            
+            detailVC.cellIndex = indexPath
             detailVC.likedDelegate = self
             self.navigationController?.pushViewController(detailVC, animated: true)
         }
@@ -188,6 +186,7 @@ extension MovieListViewController: MovieListViewControllerProtocol {
     func showPopularMovies(model: MovieListBaseModel) {
         DispatchQueue.main.async {
             self.movieData.append(contentsOf: model.results)
+            self.setFavouriteMovies()
             self.displayedData = self.movieData
             let indexPath = IndexPath(row: self.movieData.count - 1, section: 0)
             self.collectionView.insertItems(at: [indexPath])
@@ -215,8 +214,9 @@ extension MovieListViewController: LoadMoreDelegate {
 }
 
 extension MovieListViewController: UserLikedMovie {
-    func userChangedLike(likeState: Bool) {
+    func userChangedLike(likeState: Bool, cellIndex: IndexPath) {
         shouldRefresh = likeState
+        cellToRefresh = cellIndex
     }
 }
 
