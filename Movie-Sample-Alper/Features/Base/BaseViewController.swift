@@ -28,9 +28,7 @@ class BaseViewController: UIViewController, BaseViewControllerProtocol {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(loadingView)
-        setupActivityIndicator()
-        hideLoadingView()
+        setUpUI()
     }
     
     // MARK: - SetupUI
@@ -41,6 +39,13 @@ class BaseViewController: UIViewController, BaseViewControllerProtocol {
         loadingView.addSubview(activityView)
     }
     
+    private func setUpUI() {
+        setNavigationBarAppearence()
+        view.addSubview(loadingView)
+        setupActivityIndicator()
+        hideLoadingView()
+    }
+    
     func hideLoadingView()  {
         loadingView.isHidden = true
         activityView.stopAnimating()
@@ -49,6 +54,12 @@ class BaseViewController: UIViewController, BaseViewControllerProtocol {
     func showLoadingView() {
         loadingView.isHidden = false
         activityView.startAnimating()
+    }
+
+    private func setNavigationBarAppearence() {
+        UINavigationBar.appearance().barTintColor = .white
+        UINavigationBar.appearance().tintColor = .white
+        UINavigationBar.appearance().isTranslucent = false
     }
     
     // MARK: - initialization
