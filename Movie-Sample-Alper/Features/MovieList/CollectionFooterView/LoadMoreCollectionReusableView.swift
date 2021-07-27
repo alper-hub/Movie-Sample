@@ -13,16 +13,28 @@ protocol LoadMoreDelegate: AnyObject {
 
 class LoadMoreCollectionReusableView: UICollectionReusableView {
     
+    // MARK: - Variables
+
     weak var delegate: LoadMoreDelegate?
 
-    @IBOutlet weak var loadMoreButtonOutlet: UIButton!
+    // MARK: - Outlets
+
+    @IBOutlet weak var loadMoreButton: UIButton!
    
+    // MARK: - LifeCycle
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        loadMoreButtonOutlet.layer.cornerRadius = 10
+        loadMoreButton.setRounded()
     }
     
-    @IBAction func loadMoreButtonPressed(_ sender: Any) {
+    // MARK: - Actions
+
+    func setLoadMoreButtonVisibility(isHidden: Bool) {
+        loadMoreButton.isHidden = isHidden
+    }
+    
+    @IBAction private func loadMoreButtonPressed(_ sender: Any) {
         delegate?.loadMorePressed()
     }
 }

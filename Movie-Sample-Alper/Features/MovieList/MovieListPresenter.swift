@@ -18,7 +18,6 @@ class MovieListPresenter: MovieListPresenterProtocol {
     // MARK: - Dependencies
     var viewController: MovieListViewControllerProtocol?
     var interactor: MovieListInteractorProtocol?
-    // MARK: - Setup UI
 
     func fetchMovies(pageNo: Int) {
         interactor?.fetchPopularMovies(pageNo: pageNo)
