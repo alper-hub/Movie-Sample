@@ -17,24 +17,19 @@ class MovieListViewController: BaseViewController {
    
     // MARK: - Variables
     var movieData: [MovieListModel?] = []
-    var loadMoreFooter = LoadMoreCollectionReusableView()
     var currentPage = 1
     var shouldRefresh = false
     var searchResults: [MovieListModel?] = []
     var displayedData: [MovieListModel?] = []
-    var cellToRefresh: IndexPath?
     
     // MARK: - Constants
-    
     private struct Constants {
-        static let cellHeightMultiplier: CGFloat = 0.05
         static let cellWidthMultiplier: CGFloat = 0.425
         static let screenWidth = UIScreen.main.bounds.width
         static let cellWidth = screenWidth * Constants.cellWidthMultiplier
         static let cellHeight: CGFloat = Constants.cellWidth * 2
         static let footerHeight: CGFloat = 50
-        static let topInset: CGFloat = 20
-        static let bottomInset: CGFloat = 0
+        static let collectionViewInset: CGFloat = 20
     }
 
     // MARK: - Outlets
@@ -84,8 +79,10 @@ class MovieListViewController: BaseViewController {
 
     func setupCollectionViewLayout() {
         let layout = UICollectionViewFlowLayout()
+        layout.footerReferenceSize = CGSize(width: Constants.screenWidth, height: Constants.footerHeight)
         layout.scrollDirection = .vertical
         layout.sectionHeadersPinToVisibleBounds = true
+        layout.sectionInset = UIEdgeInsets(top: 0, left: Constants.collectionViewInset, bottom: 0, right:  Constants.collectionViewInset)
         collectionView.collectionViewLayout = layout
         self.collectionView.dataSource = self
         self.collectionView.reloadData()
@@ -171,7 +168,7 @@ extension MovieListViewController: UICollectionViewDataSource, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
-        loadMoreFooter = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "LoadMoreCollectionReusableView", for: indexPath) as! LoadMoreCollectionReusableView
+        guard let loadMoreFooter = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "LoadMoreCollectionReusableView", for: indexPath) as? LoadMoreCollectionReusableView else { return UICollectionReusableView() }
         loadMoreFooter.delegate = self
         if displayedData.count == movieData.count  {
             loadMoreFooter.loadMoreButton.isHidden = false
@@ -181,18 +178,8 @@ extension MovieListViewController: UICollectionViewDataSource, UICollectionViewD
         return loadMoreFooter
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        let size : CGSize = CGSize.init(width: Constants.screenWidth, height: Constants.footerHeight)
-        return size
-        
-    }
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: Constants.cellWidth, height: Constants.cellHeight)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: Constants.topInset, left: Constants.screenWidth * Constants.cellHeightMultiplier, bottom: Constants.bottomInset, right: Constants.screenWidth * Constants.cellHeightMultiplier)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
