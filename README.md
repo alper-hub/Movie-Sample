@@ -2,7 +2,7 @@
 This is an IOS application written in swift with VIPER architecture. It downloads JSON data from TMDB  and displays it within its two views. First view implements a collection view controller where popular movies are displayed, second view is the detail page where the movie poster, vote count, movie name, and overview are displayed.
 ## Screenshots
 
-<img src="/images/main-view.png" width="240"> | <img src="/images/detail-view.png" width="240"> 
+<img src="/images/main-screen.png" width="240"> | <img src="/images/detail-screen.png" width="240">  | <img src="/images/detail-screen-liked.png" width="240">  | <img src="/images/search-screen.png" width="240"> 
 
 ## Functions
  - URLSession is used for downloading JSON data from TMDB API. 
