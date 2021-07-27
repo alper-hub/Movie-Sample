@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5512EEE326B02EFB00EFD162 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5512EEE226B02EFB00EFD162 /* UIViewExtensions.swift */; };
+		5512EEE526B0722600EFD162 /* NameDescribable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5512EEE426B0722600EFD162 /* NameDescribable.swift */; };
 		555665702695EE48003BF335 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5556656F2695EE48003BF335 /* AppDelegate.swift */; };
 		555665722695EE48003BF335 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555665712695EE48003BF335 /* SceneDelegate.swift */; };
 		555665772695EE48003BF335 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 555665752695EE48003BF335 /* Main.storyboard */; };
@@ -29,6 +31,9 @@
 		555665C6269707A4003BF335 /* LoadMoreCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 555665C4269707A4003BF335 /* LoadMoreCollectionReusableView.xib */; };
 		555F4982269AF57000130241 /* ImageViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555F4981269AF57000130241 /* ImageViewExtensions.swift */; };
 		555F4984269AF58900130241 /* CollectionViewCellExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555F4983269AF58800130241 /* CollectionViewCellExtensions.swift */; };
+		556E552326AF3AD200464FE0 /* MovieListBaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556E552226AF3AD200464FE0 /* MovieListBaseModel.swift */; };
+		556E552526AF3C0000464FE0 /* MovieDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556E552426AF3C0000464FE0 /* MovieDetailModel.swift */; };
+		556E552726AF525300464FE0 /* MovieAppGlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556E552626AF525300464FE0 /* MovieAppGlobalConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +54,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5512EEE226B02EFB00EFD162 /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
+		5512EEE426B0722600EFD162 /* NameDescribable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameDescribable.swift; sourceTree = "<group>"; };
 		5556656C2695EE48003BF335 /* Movie-Sample-Alper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Movie-Sample-Alper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5556656F2695EE48003BF335 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		555665712695EE48003BF335 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -77,6 +84,9 @@
 		555665C4269707A4003BF335 /* LoadMoreCollectionReusableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadMoreCollectionReusableView.xib; sourceTree = "<group>"; };
 		555F4981269AF57000130241 /* ImageViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewExtensions.swift; sourceTree = "<group>"; };
 		555F4983269AF58800130241 /* CollectionViewCellExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCellExtensions.swift; sourceTree = "<group>"; };
+		556E552226AF3AD200464FE0 /* MovieListBaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListBaseModel.swift; sourceTree = "<group>"; };
+		556E552426AF3C0000464FE0 /* MovieDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailModel.swift; sourceTree = "<group>"; };
+		556E552626AF525300464FE0 /* MovieAppGlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieAppGlobalConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,6 +229,7 @@
 			isa = PBXGroup;
 			children = (
 				555665B52695FDDE003BF335 /* NetworkConstants.swift */,
+				556E552626AF525300464FE0 /* MovieAppGlobalConstants.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -236,6 +247,8 @@
 			isa = PBXGroup;
 			children = (
 				555665BD26960909003BF335 /* MovieListModel.swift */,
+				556E552226AF3AD200464FE0 /* MovieListBaseModel.swift */,
+				556E552426AF3C0000464FE0 /* MovieDetailModel.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -262,6 +275,8 @@
 			children = (
 				555F4981269AF57000130241 /* ImageViewExtensions.swift */,
 				555F4983269AF58800130241 /* CollectionViewCellExtensions.swift */,
+				5512EEE226B02EFB00EFD162 /* UIViewExtensions.swift */,
+				5512EEE426B0722600EFD162 /* NameDescribable.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -407,10 +422,15 @@
 				555665C126961FFD003BF335 /* BaseViewController.swift in Sources */,
 				555F4982269AF57000130241 /* ImageViewExtensions.swift in Sources */,
 				555665722695EE48003BF335 /* SceneDelegate.swift in Sources */,
+				556E552726AF525300464FE0 /* MovieAppGlobalConstants.swift in Sources */,
+				5512EEE326B02EFB00EFD162 /* UIViewExtensions.swift in Sources */,
 				555665BE26960909003BF335 /* MovieListModel.swift in Sources */,
 				555665C5269707A4003BF335 /* LoadMoreCollectionReusableView.swift in Sources */,
+				556E552526AF3C0000464FE0 /* MovieDetailModel.swift in Sources */,
+				556E552326AF3AD200464FE0 /* MovieListBaseModel.swift in Sources */,
 				555665A82695F396003BF335 /* MovieListInteractor.swift in Sources */,
 				555665B12695F4A0003BF335 /* MovieDetailInteractor.swift in Sources */,
+				5512EEE526B0722600EFD162 /* NameDescribable.swift in Sources */,
 				555665AF2695F489003BF335 /* MovieDetailViewController.swift in Sources */,
 				555665AB2695F3D9003BF335 /* MovieListPresenter.swift in Sources */,
 			);

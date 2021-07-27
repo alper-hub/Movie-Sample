@@ -21,16 +21,15 @@ class MovieListInteractor: MovieListInteractorProtocol  {
                 if let data = data {
                     let jsonDecoder = JSONDecoder()
                     do {
-                        
                         let parsedMovieListModel = try jsonDecoder.decode(MovieListBaseModel.self, from: data)
                         self.presenter?.presentPopularMovies(model: parsedMovieListModel)
                         
                     } catch {
-                        print(error.localizedDescription)
+                        self.presenter?.presentFail(error: error)
                     }
                 }
-                if let err = error {
-                    self.presenter?.presentFail(error: error)
+                if let networkError = error {
+                    self.presenter?.presentFail(error: networkError)
                 }
             }.resume()
         }

@@ -6,18 +6,10 @@
 //
 
 import Foundation
-import UIKit
 
-struct MovieListBaseModel: Codable {
-    var page: Int?
-    var total_pages: Int?
-    var results: [MovieListModel?]
-}
-
-struct MovieListModel: Codable {
+struct MovieListModel: Decodable {
     var title: String?
     var poster_path: String?
     var id: Int?
-    var overview: String?
-    var vote_count: Int?
+    var isFavoriteMovie: Bool?
 }

@@ -4,31 +4,35 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MovieListCollectionViewCell" id="gTV-IL-0wX" customClass="MovieListCollectionViewCell" customModule="Movie_Sample_Alper" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="200" height="387"/>
+            <rect key="frame" x="0.0" y="0.0" width="200" height="410"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="200" height="387"/>
+                <rect key="frame" x="0.0" y="0.0" width="200" height="410"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oas-L9-vgj">
-                        <rect key="frame" x="0.0" y="0.0" width="200" height="387"/>
+                        <rect key="frame" x="0.0" y="0.0" width="200" height="410"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iQd-9V-YOZ">
-                                <rect key="frame" x="0.0" y="0.0" width="200" height="327"/>
+                                <rect key="frame" x="0.0" y="0.0" width="200" height="300"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="iQd-9V-YOZ" secondAttribute="height" multiplier="2:3" id="4zB-WA-l1P"/>
+                                </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FJj-jW-qha">
-                                <rect key="frame" x="10" y="357" width="180" height="0.0"/>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="18"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FJj-jW-qha">
+                                <rect key="frame" x="10" y="310" width="180" height="90"/>
+                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="15"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wsX-cy-f7M">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wsX-cy-f7M">
                                 <rect key="frame" x="150" y="10" width="40" height="40"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="2Hs-Pf-2ie">
@@ -47,18 +51,16 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBlueColor"/>
                         <constraints>
                             <constraint firstItem="iQd-9V-YOZ" firstAttribute="leading" secondItem="oas-L9-vgj" secondAttribute="leading" id="6sK-Fj-9xF"/>
                             <constraint firstItem="iQd-9V-YOZ" firstAttribute="top" secondItem="oas-L9-vgj" secondAttribute="top" id="9wd-ep-FEa"/>
                             <constraint firstItem="FJj-jW-qha" firstAttribute="leading" secondItem="oas-L9-vgj" secondAttribute="leading" constant="10" id="N2v-Vc-meG"/>
-                            <constraint firstAttribute="bottom" secondItem="FJj-jW-qha" secondAttribute="bottom" constant="30" id="VCq-80-eyI"/>
-                            <constraint firstAttribute="width" constant="200" id="a91-Ny-wM4"/>
+                            <constraint firstAttribute="bottom" secondItem="FJj-jW-qha" secondAttribute="bottom" constant="10" id="VCq-80-eyI"/>
                             <constraint firstItem="wsX-cy-f7M" firstAttribute="top" secondItem="oas-L9-vgj" secondAttribute="top" constant="10" id="eEB-ci-Vy5"/>
                             <constraint firstAttribute="trailing" secondItem="FJj-jW-qha" secondAttribute="trailing" constant="10" id="ghC-DR-xVm"/>
                             <constraint firstAttribute="trailing" secondItem="iQd-9V-YOZ" secondAttribute="trailing" id="jcg-kd-oxy"/>
-                            <constraint firstItem="FJj-jW-qha" firstAttribute="top" secondItem="iQd-9V-YOZ" secondAttribute="bottom" constant="30" id="tUJ-ig-ouc"/>
-                            <constraint firstAttribute="height" constant="387" id="wHu-Aj-yUt"/>
+                            <constraint firstItem="FJj-jW-qha" firstAttribute="top" secondItem="iQd-9V-YOZ" secondAttribute="bottom" constant="10" id="tUJ-ig-ouc"/>
                             <constraint firstAttribute="trailing" secondItem="wsX-cy-f7M" secondAttribute="trailing" constant="10" id="xuY-yp-aCm"/>
                         </constraints>
                     </view>
@@ -71,19 +73,20 @@
                 <constraint firstItem="oas-L9-vgj" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="mY5-OV-lHx"/>
                 <constraint firstAttribute="trailing" secondItem="oas-L9-vgj" secondAttribute="trailing" id="v0g-4l-OnV"/>
             </constraints>
-            <size key="customSize" width="264" height="387"/>
+            <size key="customSize" width="264" height="412"/>
             <connections>
-                <outlet property="cellHeight" destination="wHu-Aj-yUt" id="qqg-55-bpt"/>
-                <outlet property="cellWidth" destination="a91-Ny-wM4" id="HlQ-Fa-RQm"/>
                 <outlet property="movieImage" destination="iQd-9V-YOZ" id="MIh-NS-KzT"/>
                 <outlet property="movieTitle" destination="FJj-jW-qha" id="Uc0-CM-Ftj"/>
                 <outlet property="outerView" destination="oas-L9-vgj" id="lkR-9E-vNK"/>
                 <outlet property="starOuterView" destination="wsX-cy-f7M" id="Hcy-ii-5Pb"/>
             </connections>
-            <point key="canvasLocation" x="163.768115942029" y="77.34375"/>
+            <point key="canvasLocation" x="163.768115942029" y="85.714285714285708"/>
         </collectionViewCell>
     </objects>
     <resources>
         <image name="star.fill" catalog="system" width="128" height="116"/>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>
