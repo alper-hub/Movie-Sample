@@ -21,7 +21,6 @@ class MovieListInteractor: MovieListInteractorProtocol  {
                 if let data = data {
                     let jsonDecoder = JSONDecoder()
                     do {
-                        
                         let parsedMovieListModel = try jsonDecoder.decode(MovieListBaseModel.self, from: data)
                         self.presenter?.presentPopularMovies(model: parsedMovieListModel)
                         

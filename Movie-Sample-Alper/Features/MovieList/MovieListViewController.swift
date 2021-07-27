@@ -119,8 +119,8 @@ class MovieListViewController: BaseViewController {
     
     private func setFavouriteMoviesInSearch() {
         let defaults = UserDefaults.standard
-        if let likedMovies = defaults.array(forKey: MovieAppGlobalConstants.favouriteMoviesArrayKey) {
-            guard let likedIds = likedMovies as? [Int] else { return }
+        if let favouriteMovies = defaults.array(forKey: MovieAppGlobalConstants.favouriteMoviesArrayKey) {
+            guard let likedIds = favouriteMovies as? [Int] else { return }
             for index in searchResults.indices {
                 var tempMovie = searchResults[index]
                 if likedIds.contains(searchResults[index]?.id ?? 0) {
@@ -135,8 +135,8 @@ class MovieListViewController: BaseViewController {
     
     private func setFavouriteMovies() {
         let defaults = UserDefaults.standard
-        if let likedMovies = defaults.array(forKey: MovieAppGlobalConstants.favouriteMoviesArrayKey) {
-            guard let likedIds = likedMovies as? [Int] else { return }
+        if let favouriteMovies = defaults.array(forKey: MovieAppGlobalConstants.favouriteMoviesArrayKey) {
+            guard let likedIds = favouriteMovies as? [Int] else { return }
             for index in movieData.indices {
                 var tempMovie = movieData[index]
                 if likedIds.contains(movieData[index]?.id ?? 0) {
