@@ -24,6 +24,7 @@ class MovieListViewController: BaseViewController {
     var searchResults: [MovieListModel?] = []
     var displayedData: [MovieListModel?] = []
     var cellToRefresh: IndexPath?
+    
     // MARK: - Constants
     
     private struct Constants {
@@ -62,14 +63,6 @@ class MovieListViewController: BaseViewController {
     
     // MARK: - LifeCycle
     
-    override func viewWillAppear(_ animated: Bool) {
-        if shouldRefresh {
-            if let indexPath = cellToRefresh {
-                collectionView.reloadItems(at: [indexPath])
-            }
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -107,6 +100,41 @@ class MovieListViewController: BaseViewController {
         MovieListCollectionViewCell.register(to: collectionView)
         LoadMoreCollectionReusableView.registerForFooter(to: collectionView)
         searchBar.delegate = self
+    }
+    
+    func setFavorites() {
+        if isSearchActive() {
+            setFavouriteMoviesInSearch()
+            displayedData = searchResults
+            setFavouriteMovies()
+        } else {
+            setFavouriteMovies()
+            displayedData = movieData
+        }
+    }
+    
+    func isSearchActive() -> Bool {
+        if searchResults.count == displayedData.count {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func setFavouriteMoviesInSearch() {
+        let defaults = UserDefaults.standard
+        if let likedMovies = defaults.array(forKey: MovieAppGlobalConstants.favouriteMoviesArrayKey) {
+            guard let likedIds = likedMovies as? [Int] else { return }
+            for index in searchResults.indices {
+                var tempMovie = searchResults[index]
+                if likedIds.contains(searchResults[index]?.id ?? 0) {
+                    tempMovie?.isFavoriteMovie = true
+                } else {
+                    tempMovie?.isFavoriteMovie = false
+                }
+                searchResults[index] = tempMovie
+            }
+        }
     }
     
     func setFavouriteMovies() {
@@ -215,8 +243,12 @@ extension MovieListViewController: LoadMoreDelegate {
 
 extension MovieListViewController: UserLikedMovie {
     func userChangedLike(likeState: Bool, cellIndex: IndexPath) {
-        shouldRefresh = likeState
-        cellToRefresh = cellIndex
+        self.setFavorites()
+        guard let movieCell: MovieListCollectionViewCell = self.collectionView.cellForItem(at: cellIndex) as? MovieListCollectionViewCell else {
+            return
+        }
+        movieCell.movieListCollectionCellData = self.movieData[cellIndex.row]
+        collectionView.reloadItems(at: [cellIndex])
     }
 }
 
