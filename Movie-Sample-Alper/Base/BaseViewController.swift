@@ -18,7 +18,7 @@ class BaseViewController: UIViewController, BaseViewControllerProtocol {
     private let loadingView:UIView = {
         let view = UIView(frame: UIScreen.main.bounds)
         view.backgroundColor = .white
-        view.alpha = 0.6
+        view.alpha = MovieAppGlobalConstants.loadingViewAlphaConstant
       return view
     }()
     

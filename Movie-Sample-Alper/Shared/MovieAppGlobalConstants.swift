@@ -18,5 +18,6 @@ struct MovieAppGlobalConstants {
     static let errorMessageOkay = "Okay"
     static let cornerRadiusforCellItems: CGFloat = 10
     static let voteCountLabel = "Vote Count: "
-    
+    static let loadingViewAlphaConstant: CGFloat = 0.6
+
 }

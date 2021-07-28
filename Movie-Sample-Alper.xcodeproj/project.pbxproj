@@ -137,6 +137,7 @@
 		5556656E2695EE48003BF335 /* Movie-Sample-Alper */ = {
 			isa = PBXGroup;
 			children = (
+				555665BF26961FE7003BF335 /* Base */,
 				555F497F269AF53000130241 /* Extensions */,
 				5556657D2695EE4B003BF335 /* Info.plist */,
 				555665B42695FDCB003BF335 /* Shared */,
@@ -201,7 +202,6 @@
 		555665A22695F27B003BF335 /* Features */ = {
 			isa = PBXGroup;
 			children = (
-				555665BF26961FE7003BF335 /* Base */,
 				555665A02695F212003BF335 /* MovieDetail */,
 				5556659F2695F1F4003BF335 /* MovieList */,
 			);
