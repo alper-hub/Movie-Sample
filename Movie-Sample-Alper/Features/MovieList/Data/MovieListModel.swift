@@ -9,7 +9,14 @@ import Foundation
 
 struct MovieListModel: Decodable {
     var title: String?
-    var poster_path: String?
-    var id: Int?
+    var posterPath: String?
+    var movieId: Int?
     var isFavoriteMovie: Bool?
+    
+    enum CodingKeys: String, CodingKey {
+        case movieId = "id"
+        case title
+        case posterPath = "poster_path"
+    }
 }
+

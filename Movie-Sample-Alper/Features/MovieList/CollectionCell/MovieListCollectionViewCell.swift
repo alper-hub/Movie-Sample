@@ -53,7 +53,7 @@ class MovieListCollectionViewCell: UICollectionViewCell {
                 starOuterView.isHidden = true
             }
         }
-        if let imagePath = movieListCollectionCellData?.poster_path {
+        if let imagePath = movieListCollectionCellData?.posterPath {
             if let imageUrl = URL(string: NetworkConstants.imageURL + imagePath) {
                 movieImage.loadImage(url: imageUrl, placeholder: UIImage(named: MovieAppGlobalConstants.placeholderMovieIcon))
             }
