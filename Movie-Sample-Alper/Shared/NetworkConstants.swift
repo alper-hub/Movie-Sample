@@ -8,6 +8,7 @@
 import Foundation
 
 struct NetworkConstants {
+    
     static let baseUrl =  "https://api.themoviedb.org/3"
     static let movieEndpoint = "/movie"
     static let popularEndPoint = "/popular"

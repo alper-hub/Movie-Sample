@@ -8,6 +8,7 @@
 import Foundation
 
 struct MovieListModel: Decodable {
+    
     var title: String?
     var posterPath: String?
     var movieId: Int?
@@ -19,4 +20,3 @@ struct MovieListModel: Decodable {
         case posterPath = "poster_path"
     }
 }
-

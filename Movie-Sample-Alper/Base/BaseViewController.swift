@@ -8,6 +8,7 @@
 import UIKit
 
 protocol BaseViewControllerProtocol: AnyObject {
+    
     func showError(error: Error?)
 }
 
@@ -15,7 +16,7 @@ class BaseViewController: UIViewController, BaseViewControllerProtocol {
     
     // MARK: - Variables
 
-    private let loadingView:UIView = {
+    private let loadingView: UIView = {
         let view = UIView(frame: UIScreen.main.bounds)
         view.backgroundColor = .white
         view.alpha = MovieAppGlobalConstants.loadingViewAlphaConstant
@@ -46,7 +47,7 @@ class BaseViewController: UIViewController, BaseViewControllerProtocol {
         hideLoadingView()
     }
     
-    func hideLoadingView()  {
+    func hideLoadingView() {
         loadingView.isHidden = true
         activityView.stopAnimating()
     }

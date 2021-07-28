@@ -8,8 +8,7 @@
 import Foundation
 
 struct MovieListBaseModel: Decodable {
+    
     var page: Int?
     var results: [MovieListModel?]
 }
-
-

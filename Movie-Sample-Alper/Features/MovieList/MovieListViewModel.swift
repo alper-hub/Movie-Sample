@@ -8,15 +8,17 @@
 import Foundation
 
 protocol MovieListViewModelDelegate: AnyObject {
+    
     func moviesFetched()
     func movieFetchError(error: Error?)
     func reloadCollectionView()
 }
 
 protocol MovieListViewModelProtocol: AnyObject {
+    
     var movieData: [MovieListModel?] {get set}
-    var searchResults: [MovieListModel?]  {get set}
-    var displayedData: [MovieListModel?]  {get set}
+    var searchResults: [MovieListModel?] { get set }
+    var displayedData: [MovieListModel?] { get set }
     var currentPage: Int {get set}
     
     func restoreSearch()
@@ -29,9 +31,9 @@ protocol MovieListViewModelProtocol: AnyObject {
 
 class MovieListViewModel: MovieListViewModelProtocol {
 
-    var movieData: [MovieListModel?] = []
-    var searchResults: [MovieListModel?] = []
-    var displayedData: [MovieListModel?] = []
+    var movieData: [MovieListModel?]
+    var searchResults: [MovieListModel?]
+    var displayedData: [MovieListModel?]
     var currentPage: Int
     
     // MARK: - Dependencies
@@ -41,6 +43,9 @@ class MovieListViewModel: MovieListViewModelProtocol {
     // MARK: - Init
     
     init(delegate: MovieListViewModelDelegate?) {
+        movieData = []
+        searchResults = []
+        displayedData = []
         self.delegate = delegate
         currentPage = 1
     }
@@ -122,7 +127,7 @@ class MovieListViewModel: MovieListViewModelProtocol {
     
      func fetchPopularMovies() {
         if let url = URL(string: NetworkConstants.baseUrl + NetworkConstants.movieEndpoint + NetworkConstants.popularEndPoint + NetworkConstants.languageEndPoint + NetworkConstants.englishUs + NetworkConstants.apiKeyEndPoint + NetworkConstants.apiKey + NetworkConstants.pageEndPoint + String(currentPage)) {
-            URLSession.shared.dataTask(with: url) { data, response, error in
+            URLSession.shared.dataTask(with: url) { data, _, error in
                 if let data = data {
                     let jsonDecoder = JSONDecoder()
                     do {

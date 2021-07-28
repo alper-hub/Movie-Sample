@@ -12,6 +12,7 @@ class MovieListCollectionViewCell: UICollectionViewCell {
     // MARK: - Constants
 
     private struct Constants {
+        
         static let screenWidth = UIScreen.main.bounds.width
         static let cellWidth = screenWidth * 0.425
     }
@@ -61,4 +62,3 @@ class MovieListCollectionViewCell: UICollectionViewCell {
     }
     
 }
-

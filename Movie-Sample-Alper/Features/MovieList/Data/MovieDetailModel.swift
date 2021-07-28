@@ -8,6 +8,7 @@
 import Foundation
 
 struct MovieDetailModel: Decodable {
+    
     var title: String?
     var posterPath: String?
     var overview: String?

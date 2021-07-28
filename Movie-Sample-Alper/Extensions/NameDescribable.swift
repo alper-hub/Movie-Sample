@@ -8,6 +8,7 @@
 import Foundation
 
 protocol NameDescribable {
+    
     var typeName: String { get }
     static var typeName: String { get }
 }

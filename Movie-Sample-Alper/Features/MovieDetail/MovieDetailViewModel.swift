@@ -95,7 +95,7 @@ class MovieDetailViewModel: MovieDetailViewModelProtocol {
     
     func fetchMovieDetails() {
         if let url = URL(string: NetworkConstants.baseUrl + NetworkConstants.movieEndpoint + "/" + String(currentMovieId) + NetworkConstants.languageEndPoint + NetworkConstants.englishUs + NetworkConstants.apiKeyEndPoint + NetworkConstants.apiKey) {
-            URLSession.shared.dataTask(with: url) { data, response, error in
+            URLSession.shared.dataTask(with: url) { data, _, error in
                 if let data = data {
                     let jsonDecoder = JSONDecoder()
                     do {
