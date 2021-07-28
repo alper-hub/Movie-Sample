@@ -7,6 +7,11 @@
 
 import Foundation
 
+protocol MovieListNetworkDelegate: AnyObject {
+    
+    func fetchMovies(pageNumber: Int)
+}
+
 protocol MovieListViewModelDelegate: AnyObject {
     
     func moviesFetched()
@@ -35,9 +40,11 @@ class MovieListViewModel: MovieListViewModelProtocol {
     var searchResults: [MovieListModel?]
     var displayedData: [MovieListModel?]
     var currentPage: Int
-    
+    var webService = MovieListWebService()
     // MARK: - Dependencies
+    
     weak var delegate: MovieListViewModelDelegate?
+    weak var webDelegate: MovieListNetworkDelegate?
     let defaults = UserDefaults.standard
 
     // MARK: - Init
@@ -48,6 +55,8 @@ class MovieListViewModel: MovieListViewModelProtocol {
         displayedData = []
         self.delegate = delegate
         currentPage = 1
+        webService.delegate = self
+        self.webDelegate = webService
     }
     
     func setMovieData(model: MovieListBaseModel) {
@@ -109,7 +118,6 @@ class MovieListViewModel: MovieListViewModelProtocol {
     }
     
     func restoreSearch() {
-        
         searchResults = []
         displayedData = movieData
         delegate?.reloadCollectionView()
@@ -129,22 +137,18 @@ class MovieListViewModel: MovieListViewModelProtocol {
     }
     
      func fetchPopularMovies() {
-        if let url = URL(string: NetworkConstants.baseUrl + NetworkConstants.movieEndpoint + NetworkConstants.popularEndPoint + NetworkConstants.languageEndPoint + NetworkConstants.englishUs + NetworkConstants.apiKeyEndPoint + NetworkConstants.apiKey + NetworkConstants.pageEndPoint + String(currentPage)) {
-            URLSession.shared.dataTask(with: url) { data, _, error in
-                if let data = data {
-                    let jsonDecoder = JSONDecoder()
-                    do {
-                        let parsedMovieListModel = try jsonDecoder.decode(MovieListBaseModel.self, from: data)
-                        self.setMovieData(model: parsedMovieListModel)
-                        self.delegate?.moviesFetched()
-                    } catch {
-                        self.delegate?.movieFetchError(error: error)
-                    }
-                }
-                if let networkError = error {
-                    self.delegate?.movieFetchError(error: networkError)
-                }
-            }.resume()
-        }
+        webDelegate?.fetchMovies(pageNumber: currentPage)
+    }
+}
+
+extension MovieListViewModel: MovieListWebServiceDelegate {
+    
+    func fetchedMoviesSuccesFully(model: MovieListBaseModel) {
+        self.setMovieData(model: model)
+        self.delegate?.moviesFetched()
+    }
+    
+    func movieFetchFailure(error: Error?) {
+        self.delegate?.movieFetchError(error: error)
     }
 }

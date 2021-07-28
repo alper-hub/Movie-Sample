@@ -1,5 +1,10 @@
 import Foundation
 
+protocol MovieDetailNetworkDelegate: AnyObject {
+    
+    func fetchMovieDetails(movieId: Int)
+}
+
 protocol MovieDetailViewModelDelegate: AnyObject {
     
     func showMovieDetails(model: MovieDetailModel?)
@@ -27,7 +32,7 @@ class MovieDetailViewModel: MovieDetailViewModelProtocol {
 
     // MARK: - Dependencies
     weak var delegate: MovieDetailViewModelDelegate?
-    
+    weak var webServiceDelegate: MovieDetailNetworkDelegate?
     // MARK: - Variables
 
     let defaults = UserDefaults.standard
@@ -39,6 +44,7 @@ class MovieDetailViewModel: MovieDetailViewModelProtocol {
     var isFavorite: Bool
     var cellIndex: IndexPath?
     var currentMovieId: Int
+    var webService = MovieDetailListWebService()
     
     // MARK: - Init
     
@@ -52,6 +58,8 @@ class MovieDetailViewModel: MovieDetailViewModelProtocol {
         cellIndex = cellIndexPath
         currentMovieId = currentId
         checkIsFavoriteMovie()
+        webService.delegate = self
+        webServiceDelegate = webService
     }
 
     func presentMovieDetails(model: MovieDetailModel?) {
@@ -94,23 +102,17 @@ class MovieDetailViewModel: MovieDetailViewModelProtocol {
     }
     
     func fetchMovieDetails() {
-        if let url = URL(string: NetworkConstants.baseUrl + NetworkConstants.movieEndpoint + "/" + String(currentMovieId) + NetworkConstants.languageEndPoint + NetworkConstants.englishUs + NetworkConstants.apiKeyEndPoint + NetworkConstants.apiKey) {
-            URLSession.shared.dataTask(with: url) { data, _, error in
-                if let data = data {
-                    let jsonDecoder = JSONDecoder()
-                    do {
-                        
-                        let parsedMovieListModel = try jsonDecoder.decode(MovieDetailModel.self, from: data)
-                        self.presentMovieDetails(model: parsedMovieListModel)
-                        
-                    } catch {
-                        self.presentFail(error: error)
-                    }
-                }
-                if let networkError = error {
-                    self.presentFail(error: networkError)
-                }
-            }.resume()
-        }
+        webServiceDelegate?.fetchMovieDetails(movieId: currentMovieId)
+    }
+}
+
+extension MovieDetailViewModel: MovieDetailWebServiceDelegate {
+    
+    func fetchedMovieDetailsSuccesFully(model: MovieDetailModel) {
+        self.presentMovieDetails(model: model)
+    }
+    
+    func movieDetailFetchFailure(error: Error?) {
+        self.presentFail(error: error)
     }
 }
