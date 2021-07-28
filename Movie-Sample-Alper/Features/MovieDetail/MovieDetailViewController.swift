@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol UserLikedMovie: AnyObject {
+protocol MovieDetailViewControllerDelegate: AnyObject {
     
     func userChangedLike(likeStateChanged: Bool, cellIndex: IndexPath)
 }
@@ -16,15 +16,15 @@ class MovieDetailViewController: BaseViewController {
 
     // MARK: - Variables
     var viewModel: MovieDetailViewModelProtocol?
-    weak var likedDelegate: UserLikedMovie?
+    weak var likedDelegate: MovieDetailViewControllerDelegate?
     
     // MARK: - Outlets
     
     @IBOutlet private weak var movieImage: UIImageView!
-    @IBOutlet private weak var movieTitle: UILabel!
-    @IBOutlet private weak var movieOverview: UILabel!
+    @IBOutlet private weak var movieTitleLabel: UILabel!
+    @IBOutlet private weak var movieOverviewLabel: UILabel!
     @IBOutlet private weak var voteCountOuterView: UIView!
-    @IBOutlet private weak var voteCount: UILabel!
+    @IBOutlet private weak var voteCountLabel: UILabel!
     @IBOutlet private weak var starButton: UIBarButtonItem!
     @IBOutlet private weak var backButton: UIBarButtonItem!
     
@@ -89,9 +89,9 @@ extension MovieDetailViewController: MovieDetailViewModelDelegate {
                 }
             }
             DispatchQueue.main.async {
-                self.movieTitle.text = model?.title
-                self.movieOverview.text = model?.overview
-                self.voteCount.text = MovieAppGlobalConstants.voteCountLabel + String(model?.voteCount ?? 0)
+                self.movieTitleLabel.text = model?.title
+                self.movieOverviewLabel.text = model?.overview
+                self.voteCountLabel.text = MovieAppGlobalConstants.voteCountLabel + String(model?.voteCount ?? 0)
                 self.hideLoadingView()
                 self.voteCountOuterView.isHidden = false
             }

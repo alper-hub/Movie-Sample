@@ -128,7 +128,7 @@ extension MovieListViewController: LoadMoreDelegate {
     }
 }
 
-extension MovieListViewController: UserLikedMovie {
+extension MovieListViewController: MovieDetailViewControllerDelegate {
     
     func userChangedLike(likeStateChanged: Bool, cellIndex: IndexPath) {
         if likeStateChanged {
