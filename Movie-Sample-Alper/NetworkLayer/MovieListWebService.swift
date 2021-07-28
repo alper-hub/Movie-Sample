@@ -15,25 +15,18 @@ protocol MovieListWebServiceDelegate: AnyObject {
 }
 
 class MovieListWebService: MovieListNetworkDelegate {
-   
+    
+    private let sessionProvider = URLSessionProvider()
     weak var delegate: MovieListWebServiceDelegate?
     
     func fetchMovies(pageNumber: Int) {
-        if let url = URL(string: NetworkConstants.baseUrl + NetworkConstants.movieEndpoint + NetworkConstants.popularEndPoint + NetworkConstants.languageEndPoint + NetworkConstants.englishUs + NetworkConstants.apiKeyEndPoint + NetworkConstants.apiKey + NetworkConstants.pageEndPoint + String(pageNumber)) {
-            URLSession.shared.dataTask(with: url) { data, _, error in
-                if let data = data {
-                    let jsonDecoder = JSONDecoder()
-                    do {
-                        let parsedMovieListModel = try jsonDecoder.decode(MovieListBaseModel.self, from: data)
-                        self.delegate?.fetchedMoviesSuccesFully(model: parsedMovieListModel)
-                    } catch {
-                        self.delegate?.movieFetchFailure(error: error)
-                    }
-                }
-                if let networkError = error {
-                    self.delegate?.movieFetchFailure(error: networkError)
-                }
-            }.resume()
+        sessionProvider.request(type: MovieListBaseModel.self, service: MovieService.list(pageNumber: pageNumber)) { response in
+            switch response {
+            case let .success(movieBaseModel):
+                self.delegate?.fetchedMoviesSuccesFully(model: movieBaseModel)
+            case let .failure(error):
+                self.delegate?.movieFetchFailure(error: error)
+            }
         }
     }
 }
