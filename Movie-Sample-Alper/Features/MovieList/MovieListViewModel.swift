@@ -72,32 +72,35 @@ class MovieListViewModel: MovieListViewModelProtocol {
     }
     
     private func retrieveAndSetFavouriteMovies() {
-        if let favouriteMovies = defaults.array(forKey: MovieAppGlobalConstants.favouriteMoviesArrayKey) {
-            guard let likedIds = favouriteMovies as? [Int] else { return }
-            for index in movieData.indices {
-                var tempMovie = movieData[index]
-                if likedIds.contains(movieData[index]?.movieId ?? 0) {
-                    tempMovie?.isFavoriteMovie = true
-                } else {
-                    tempMovie?.isFavoriteMovie = false
-                }
-                movieData[index] = tempMovie
+        for index in movieData.indices {
+            var tempMovie = movieData[index]
+            if fetchFavoriteMovies().contains(movieData[index]?.movieId ?? 0) {
+                tempMovie?.isFavoriteMovie = true
+            } else {
+                tempMovie?.isFavoriteMovie = false
             }
+            movieData[index] = tempMovie
         }
     }
     
     private func retrieveAndSetFavouriteMoviesInSearch() {
-        if let favouriteMovies = defaults.array(forKey: MovieAppGlobalConstants.favouriteMoviesArrayKey) {
-            guard let likedIds = favouriteMovies as? [Int] else { return }
-            for index in searchResults.indices {
-                var tempMovie = searchResults[index]
-                if likedIds.contains(searchResults[index]?.movieId ?? 0) {
-                    tempMovie?.isFavoriteMovie = true
-                } else {
-                    tempMovie?.isFavoriteMovie = false
-                }
-                searchResults[index] = tempMovie
+        for index in searchResults.indices {
+            var tempMovie = searchResults[index]
+            if fetchFavoriteMovies().contains(searchResults[index]?.movieId ?? 0) {
+                tempMovie?.isFavoriteMovie = true
+            } else {
+                tempMovie?.isFavoriteMovie = false
             }
+            searchResults[index] = tempMovie
+        }
+    }
+    
+    private func fetchFavoriteMovies() -> [Int] {
+        if let favouriteMovies = defaults.array(forKey: MovieAppGlobalConstants.favouriteMoviesArrayKey) {
+            guard let favoriteMovieIds = favouriteMovies as? [Int] else { return [] }
+            return favoriteMovieIds
+        } else {
+            return []
         }
     }
     
