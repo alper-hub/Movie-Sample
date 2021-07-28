@@ -9,19 +9,14 @@ import UIKit
 
 protocol UserLikedMovie: AnyObject {
     
-    func userChangedLike(likeState: Bool, cellIndex: IndexPath)
+    func userChangedLike(likeStateChanged: Bool, cellIndex: IndexPath)
 }
 
 class MovieDetailViewController: BaseViewController {
 
     // MARK: - Variables
-    private var viewModel: MovieDetailViewModelProtocol?
-    private var movieId = 0
-    private var userLiked = false
-    private var initialLikeState = false
-    private var finalLikeState = false
-    private var likedMovieIds: [Int?] = []
-    private weak var likedDelegate: UserLikedMovie?
+    var viewModel: MovieDetailViewModelProtocol?
+    weak var likedDelegate: UserLikedMovie?
     
     // MARK: - Outlets
     
@@ -37,18 +32,18 @@ class MovieDetailViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel = MovieDetailViewModel(delegate: self, currentId: self.movieId)
         setupUI()
-        initialLikeState = userLiked
         showLoadingView()
-        viewModel?.fetchMovieDetails(movieId: movieId)
+        viewModel?.fetchMovieDetails()
 
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        finalLikeState = userLiked
-        if let indexPath = viewModel?.cellIndex {
-            likedDelegate?.userChangedLike(likeState: didLikeChange(), cellIndex: indexPath)
+        if let currentFavoriteState = viewModel?.isFavorite {
+            viewModel?.finalLikeState = currentFavoriteState
+            if let indexPath = viewModel?.cellIndex {
+                likedDelegate?.userChangedLike(likeStateChanged: didLikeChange(), cellIndex: indexPath)
+            }
         }
     }
     
@@ -69,21 +64,16 @@ class MovieDetailViewController: BaseViewController {
         }
     }
     
-    func setMovieDetailParameters(movieId: Int, cellIndex: IndexPath, delegate: UserLikedMovie?) {
-        self.movieId = movieId
-        likedDelegate = delegate
-        self.viewModel?.cellIndex = cellIndex
-    }
-    
     // MARK: - SetupUI
 
     private func setupUI() {
+        changeRatingStar(isFavorite: viewModel?.isFavorite ?? false)
         voteCountOuterView.setRounded()
         movieImage.layer.cornerRadius = MovieAppGlobalConstants.cornerRadiusforCellItems
     }
         
     private func didLikeChange() -> Bool {
-        if initialLikeState == finalLikeState {
+        if viewModel?.initialLikeState == viewModel?.finalLikeState {
             return false
         } else {
             return true
@@ -92,7 +82,7 @@ class MovieDetailViewController: BaseViewController {
 }
 
 extension MovieDetailViewController: MovieDetailViewModelDelegate {
-    
+
     func showMovieDetails(model: MovieDetailModel?) {
             if let imagePath = model?.posterPath {
                 if let imageUrl = URL(string: NetworkConstants.bigImageURL + imagePath) {
@@ -115,14 +105,11 @@ extension MovieDetailViewController: MovieDetailViewModelDelegate {
         }
     }
     
-    func setFavouriteMovieStar(isFavourite: Bool) {
-        DispatchQueue.main.async {
-            if isFavourite {
-                self.starButton.image = UIImage(systemName: MovieAppGlobalConstants.filledStarIcon)
-            } else {
-                self.starButton.image = UIImage(systemName: MovieAppGlobalConstants.starIcon)
-
-            }
+    func changeRatingStar(isFavorite: Bool) {
+        if isFavorite {
+            self.starButton.image = UIImage(systemName: MovieAppGlobalConstants.filledStarIcon)
+        } else {
+            self.starButton.image = UIImage(systemName: MovieAppGlobalConstants.starIcon)
         }
     }
 }

@@ -13,6 +13,7 @@ protocol NameDescribable {
 }
 
 extension NameDescribable {
+    
     var typeName: String {
         return String(describing: type(of: self))
     }

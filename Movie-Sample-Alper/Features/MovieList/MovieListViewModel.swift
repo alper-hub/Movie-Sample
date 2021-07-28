@@ -33,9 +33,11 @@ class MovieListViewModel: MovieListViewModelProtocol {
     var searchResults: [MovieListModel?] = []
     var displayedData: [MovieListModel?] = []
     var currentPage: Int
+    
     // MARK: - Dependencies
     weak var delegate: MovieListViewModelDelegate?
-    
+    let defaults = UserDefaults.standard
+
     // MARK: - Init
     
     init(delegate: MovieListViewModelDelegate?) {
@@ -44,9 +46,9 @@ class MovieListViewModel: MovieListViewModelProtocol {
     }
     
     func setMovieData(model: MovieListBaseModel) {
-        self.movieData.append(contentsOf: model.results)
-        self.retrieveAndSetFavouriteMovies()
-        self.displayedData = self.movieData
+        movieData.append(contentsOf: model.results)
+        retrieveAndSetFavouriteMovies()
+        displayedData = movieData
     }
     
      func setFavorites() {
@@ -61,15 +63,10 @@ class MovieListViewModel: MovieListViewModelProtocol {
     }
     
     func isSearchActive() -> Bool {
-        if searchResults.count == displayedData.count {
-            return true
-        } else {
-            return false
-        }
+        return searchResults.count == displayedData.count
     }
     
     private func retrieveAndSetFavouriteMovies() {
-        let defaults = UserDefaults.standard
         if let favouriteMovies = defaults.array(forKey: MovieAppGlobalConstants.favouriteMoviesArrayKey) {
             guard let likedIds = favouriteMovies as? [Int] else { return }
             for index in movieData.indices {
@@ -85,7 +82,6 @@ class MovieListViewModel: MovieListViewModelProtocol {
     }
     
     private func retrieveAndSetFavouriteMoviesInSearch() {
-        let defaults = UserDefaults.standard
         if let favouriteMovies = defaults.array(forKey: MovieAppGlobalConstants.favouriteMoviesArrayKey) {
             guard let likedIds = favouriteMovies as? [Int] else { return }
             for index in searchResults.indices {
@@ -113,16 +109,15 @@ class MovieListViewModel: MovieListViewModelProtocol {
     
     func filterMoviesWithSearchText(text: String) {
         searchResults = []
-            for movie in movieData {
-                if let movieTitle = movie?.title?.lowercased() {
-                    if movieTitle.contains(text.lowercased()) {
-                        searchResults.append(movie)
-                        displayedData = searchResults
-                        delegate?.reloadCollectionView()
-                    }
+        for movie in movieData {
+            if let movieTitle = movie?.title?.lowercased() {
+                if movieTitle.contains(text.lowercased()) {
+                    searchResults.append(movie)
+                    displayedData = searchResults
+                    delegate?.reloadCollectionView()
                 }
             }
-        
+        }
     }
     
      func fetchPopularMovies() {

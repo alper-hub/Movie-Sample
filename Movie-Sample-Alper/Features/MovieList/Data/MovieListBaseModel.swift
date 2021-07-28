@@ -9,14 +9,7 @@ import Foundation
 
 struct MovieListBaseModel: Decodable {
     var page: Int?
-    var totalPages: Int?
     var results: [MovieListModel?]
-   
-    enum CodingKeys: String, CodingKey {
-        case totalPages = "total_pages"
-        case page
-        case results
-    }
 }
 
 

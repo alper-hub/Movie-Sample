@@ -1,19 +1,23 @@
 import Foundation
 
 protocol MovieDetailViewModelDelegate: AnyObject {
+    
     func showMovieDetails(model: MovieDetailModel?)
     func showFail(error: Error?)
-    func setFavouriteMovieStar(isFavourite: Bool)
+    func changeRatingStar(isFavorite: Bool)
 }
 
 protocol MovieDetailViewModelProtocol: AnyObject {
-    var isFavorite: Bool {get}
-    var cellIndex: IndexPath? {get set}
-    var currentMovieId: Int {get set}
+    
+    var isFavorite: Bool { get }
+    var cellIndex: IndexPath? { get set }
+    var currentMovieId: Int { get set }
+    var finalLikeState: Bool { get set }
+    var initialLikeState: Bool { get set }
     
     func presentMovieDetails(model: MovieDetailModel?)
     func presentFail(error: Error?)
-    func fetchMovieDetails(movieId: Int)
+    func fetchMovieDetails()
     func addToFavouriteMovies()
     func removeFromFavouriteMovies()
     func checkIsFavoriteMovie()
@@ -23,31 +27,35 @@ class MovieDetailViewModel: MovieDetailViewModelProtocol {
 
     // MARK: - Dependencies
     weak var delegate: MovieDetailViewModelDelegate?
+    
+    // MARK: - Variables
+
+    let defaults = UserDefaults.standard
+    
+    private var favoriteMovies: [Int]
+    private var movieDetailModel: MovieDetailModel?
+    var initialLikeState: Bool
+    var finalLikeState: Bool
     var isFavorite: Bool
-    var favoriteMovies: [Int]
-    var movieDetailModel: MovieDetailModel?
     var cellIndex: IndexPath?
     var currentMovieId: Int
-    let defaults = UserDefaults.standard
-
+    
     // MARK: - Init
     
-    init(delegate: MovieDetailViewModelDelegate?, currentId: Int) {
+    init(delegate: MovieDetailViewModelDelegate?, currentId: Int, cellIndexPath: IndexPath) {
         self.delegate = delegate
         isFavorite = false
+        initialLikeState = false
+        finalLikeState = false
         favoriteMovies = []
         movieDetailModel = MovieDetailModel()
-        cellIndex = IndexPath()
+        cellIndex = cellIndexPath
         currentMovieId = currentId
-        if let savedFavoriteMovies = defaults.array(forKey: MovieAppGlobalConstants.favouriteMoviesArrayKey) as? [Int] {
-            favoriteMovies = savedFavoriteMovies
-        }
         checkIsFavoriteMovie()
     }
 
     func presentMovieDetails(model: MovieDetailModel?) {
         movieDetailModel = model
-        checkIsFavoriteMovie()
         delegate?.showMovieDetails(model: model)
     }
     
@@ -56,32 +64,37 @@ class MovieDetailViewModel: MovieDetailViewModelProtocol {
     }
     
     func addToFavouriteMovies() {
-        
         favoriteMovies.append(movieDetailModel?.movieId ?? 0)
         defaults.set(favoriteMovies, forKey: MovieAppGlobalConstants.favouriteMoviesArrayKey)
         isFavorite = true
+        delegate?.changeRatingStar(isFavorite: isFavorite)
     }
     
     func removeFromFavouriteMovies() {
-
         if let index = favoriteMovies.firstIndex(of: movieDetailModel?.movieId ?? 0) {
             favoriteMovies.remove(at: index)
-            defaults.set(favoriteMovies, forKey: MovieAppGlobalConstants.favouriteMoviesArrayKey)
+            defaults.set(favoriteMovies,
+                         forKey: MovieAppGlobalConstants.favouriteMoviesArrayKey)
         }
         isFavorite = false
+        delegate?.changeRatingStar(isFavorite: isFavorite)
     }
     
     func checkIsFavoriteMovie() {
-        for movieID in favoriteMovies {
-            if movieID == self.currentMovieId {
+        if let savedFavoriteMovies = defaults.array(forKey: MovieAppGlobalConstants.favouriteMoviesArrayKey) as? [Int] {
+            favoriteMovies = savedFavoriteMovies
+        }
+        
+        for savedMovieID in favoriteMovies {
+            if savedMovieID == self.currentMovieId {
                 isFavorite = true
-                delegate?.setFavouriteMovieStar(isFavourite: true)
+                initialLikeState = isFavorite
             }
         }
     }
     
-    func fetchMovieDetails(movieId: Int) {
-        if let url = URL(string: NetworkConstants.baseUrl + NetworkConstants.movieEndpoint + "/" + String(movieId) + NetworkConstants.languageEndPoint + NetworkConstants.englishUs + NetworkConstants.apiKeyEndPoint + NetworkConstants.apiKey) {
+    func fetchMovieDetails() {
+        if let url = URL(string: NetworkConstants.baseUrl + NetworkConstants.movieEndpoint + "/" + String(currentMovieId) + NetworkConstants.languageEndPoint + NetworkConstants.englishUs + NetworkConstants.apiKeyEndPoint + NetworkConstants.apiKey) {
             URLSession.shared.dataTask(with: url) { data, response, error in
                 if let data = data {
                     let jsonDecoder = JSONDecoder()

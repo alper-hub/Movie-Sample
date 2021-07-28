@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5512EEE326B02EFB00EFD162 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5512EEE226B02EFB00EFD162 /* UIViewExtensions.swift */; };
 		5512EEE526B0722600EFD162 /* NameDescribable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5512EEE426B0722600EFD162 /* NameDescribable.swift */; };
+		5512EEE826B1B61600EFD162 /* UICollectionViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5512EEE726B1B61600EFD162 /* UICollectionViewExtensions.swift */; };
 		555665702695EE48003BF335 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5556656F2695EE48003BF335 /* AppDelegate.swift */; };
 		555665722695EE48003BF335 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555665712695EE48003BF335 /* SceneDelegate.swift */; };
 		555665772695EE48003BF335 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 555665752695EE48003BF335 /* Main.storyboard */; };
@@ -56,6 +57,7 @@
 		2E4B67DF29E088712865463A /* libPods-Movie-Sample-Alper.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Movie-Sample-Alper.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5512EEE226B02EFB00EFD162 /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		5512EEE426B0722600EFD162 /* NameDescribable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameDescribable.swift; sourceTree = "<group>"; };
+		5512EEE726B1B61600EFD162 /* UICollectionViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewExtensions.swift; sourceTree = "<group>"; };
 		5556656C2695EE48003BF335 /* Movie-Sample-Alper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Movie-Sample-Alper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5556656F2695EE48003BF335 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		555665712695EE48003BF335 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -153,7 +155,7 @@
 				5556657D2695EE4B003BF335 /* Info.plist */,
 				555665B42695FDCB003BF335 /* Shared */,
 				555665A42695F2C1003BF335 /* Supporting Files */,
-				555665A32695F29D003BF335 /* StoryBoards */,
+				555665A32695F29D003BF335 /* Storyboards */,
 				555665A22695F27B003BF335 /* Features */,
 				555665A12695F263003BF335 /* Application */,
 			);
@@ -217,13 +219,13 @@
 			path = Features;
 			sourceTree = "<group>";
 		};
-		555665A32695F29D003BF335 /* StoryBoards */ = {
+		555665A32695F29D003BF335 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
 				5556657A2695EE4B003BF335 /* LaunchScreen.storyboard */,
 				555665752695EE48003BF335 /* Main.storyboard */,
 			);
-			path = StoryBoards;
+			path = Storyboards;
 			sourceTree = "<group>";
 		};
 		555665A42695F2C1003BF335 /* Supporting Files */ = {
@@ -286,6 +288,7 @@
 				555F4983269AF58800130241 /* CollectionViewCellExtensions.swift */,
 				5512EEE226B02EFB00EFD162 /* UIViewExtensions.swift */,
 				5512EEE426B0722600EFD162 /* NameDescribable.swift */,
+				5512EEE726B1B61600EFD162 /* UICollectionViewExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -490,6 +493,7 @@
 				555665C5269707A4003BF335 /* LoadMoreCollectionReusableView.swift in Sources */,
 				556E552526AF3C0000464FE0 /* MovieDetailModel.swift in Sources */,
 				556E552326AF3AD200464FE0 /* MovieListBaseModel.swift in Sources */,
+				5512EEE826B1B61600EFD162 /* UICollectionViewExtensions.swift in Sources */,
 				5512EEE526B0722600EFD162 /* NameDescribable.swift in Sources */,
 				555665AF2695F489003BF335 /* MovieDetailViewController.swift in Sources */,
 				555665AB2695F3D9003BF335 /* MovieListViewModel.swift in Sources */,
@@ -598,7 +602,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -653,7 +657,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

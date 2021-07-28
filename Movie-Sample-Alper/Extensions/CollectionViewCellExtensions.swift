@@ -8,7 +8,6 @@
 import Foundation
 import UIKit
 
-
 extension UICollectionViewCell {
 
     static func register(to collectionView: UICollectionView?) {
@@ -16,8 +15,6 @@ extension UICollectionViewCell {
         let nib = UINib(nibName: className, bundle: nil)
         collectionView?.register(nib, forCellWithReuseIdentifier: className)
     }
-    
-
 }
 
 extension UICollectionReusableView {
@@ -26,7 +23,5 @@ extension UICollectionReusableView {
         let className = String(describing: Self.self)
         let nib = UINib(nibName: className, bundle: nil)
         collectionView?.register(nib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: className)
-        
     }
 }
-

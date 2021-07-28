@@ -57,7 +57,7 @@ class MovieListViewController: BaseViewController {
         layout.footerReferenceSize = CGSize(width: Constants.screenWidth, height: Constants.footerHeight)
         layout.scrollDirection = .vertical
         layout.sectionHeadersPinToVisibleBounds = true
-        layout.sectionInset = UIEdgeInsets(top: 0, left: Constants.collectionViewInset, bottom: 0, right:  Constants.collectionViewInset)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: Constants.collectionViewInset, bottom: 0, right: Constants.collectionViewInset)
         collectionView.collectionViewLayout = layout
         collectionView.dataSource = self
         collectionView.reloadData()
@@ -73,8 +73,15 @@ class MovieListViewController: BaseViewController {
         searchBar.delegate = self
     }
     
-
-
+    private func navigateToMovieDetail(_ indexPath: IndexPath) {
+        if let detailVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: MovieDetailViewController.typeName) as? MovieDetailViewController {
+            guard let movieId = viewModel?.displayedData[indexPath.item]?.movieId else {return}
+            let viewModel = MovieDetailViewModel(delegate: detailVC, currentId: movieId, cellIndexPath: indexPath)
+            detailVC.viewModel = viewModel
+            detailVC.likedDelegate = self
+            self.navigationController?.pushViewController(detailVC, animated: true)
+        }
+    }
 }
 
 // MARK: - Collection View Methods
@@ -86,9 +93,8 @@ extension MovieListViewController: UICollectionViewDataSource, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        guard let movieCell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieListCollectionViewCell.typeName, for: indexPath) as? MovieListCollectionViewCell else {return UICollectionViewCell()}
-        
+    
+        let movieCell: MovieListCollectionViewCell = collectionView.dequeue(for: indexPath)
         movieCell.movieListCollectionCellData = viewModel?.displayedData[indexPath.item]
         return movieCell
     }
@@ -106,11 +112,7 @@ extension MovieListViewController: UICollectionViewDataSource, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let detailVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: MovieDetailViewController.typeName) as? MovieDetailViewController {
-            guard let movieId = viewModel?.displayedData[indexPath.item]?.movieId else {return}
-            detailVC.setMovieDetailParameters(movieId: movieId, cellIndex: indexPath, delegate: self)
-            self.navigationController?.pushViewController(detailVC, animated: true)
-        }
+        navigateToMovieDetail(indexPath)
     }
 }
 
@@ -127,13 +129,16 @@ extension MovieListViewController: LoadMoreDelegate {
 }
 
 extension MovieListViewController: UserLikedMovie {
-    func userChangedLike(likeState: Bool, cellIndex: IndexPath) {
-        viewModel?.setFavorites()
-        guard let movieCell: MovieListCollectionViewCell = collectionView.cellForItem(at: cellIndex) as? MovieListCollectionViewCell else {
-            return
-        }
-        movieCell.movieListCollectionCellData = viewModel?.movieData[cellIndex.row]
-        collectionView.reloadItems(at: [cellIndex])
+    
+    func userChangedLike(likeStateChanged: Bool, cellIndex: IndexPath) {
+        if likeStateChanged {
+            viewModel?.setFavorites()
+            guard let movieCell: MovieListCollectionViewCell = collectionView.cellForItem(at: cellIndex) as? MovieListCollectionViewCell else {
+                return
+            }
+            movieCell.movieListCollectionCellData = viewModel?.movieData[cellIndex.row]
+            collectionView.reloadItems(at: [cellIndex])
+        } 
     }
 }
 
@@ -146,10 +151,10 @@ extension MovieListViewController: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchText == "" {
+        if searchText.isEmpty {
             restoreSearchResults()
         } else {
-            runSearch(searchText: searchText)
+            searchMovie(with: searchText)
         }
     }
     
@@ -164,11 +169,11 @@ extension MovieListViewController: UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        runSearch(searchText: searchBar.text)
+        searchMovie(with: searchBar.text)
         dismissKeyboard()
     }
     
-    func runSearch(searchText: String?) {
+    func searchMovie(with searchText: String?) {
         if let query = searchBar.text {
             viewModel?.filterMoviesWithSearchText(text: query)
             if let searchedMovies = viewModel?.searchResults {
@@ -214,5 +219,4 @@ extension MovieListViewController: MovieListViewModelDelegate {
             self.showError(error: error)
         }
     }
-    
 }
