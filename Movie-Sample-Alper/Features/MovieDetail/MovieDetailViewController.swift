@@ -35,7 +35,6 @@ class MovieDetailViewController: BaseViewController {
         setupUI()
         showLoadingView()
         viewModel?.fetchMovieDetails()
-
     }
     
     override func viewWillDisappear(_ animated: Bool) {

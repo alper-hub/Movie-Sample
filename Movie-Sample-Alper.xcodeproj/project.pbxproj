@@ -125,6 +125,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		5512EEE926B1CE6D00EFD162 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		555665632695EE48003BF335 = {
 			isa = PBXGroup;
 			children = (
@@ -213,6 +220,7 @@
 		555665A22695F27B003BF335 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				5512EEE926B1CE6D00EFD162 /* Network */,
 				555665A02695F212003BF335 /* MovieDetail */,
 				5556659F2695F1F4003BF335 /* MovieList */,
 			);

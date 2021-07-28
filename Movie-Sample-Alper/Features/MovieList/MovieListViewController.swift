@@ -101,7 +101,7 @@ extension MovieListViewController: UICollectionViewDataSource, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
-        guard let loadMoreFooter = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: LoadMoreCollectionReusableView.typeName, for: indexPath) as? LoadMoreCollectionReusableView else { return UICollectionReusableView() }
+        let loadMoreFooter: LoadMoreCollectionReusableView = collectionView.dequeueSupplementaryView(withIdentifier: LoadMoreCollectionReusableView.typeName, for: indexPath)
         loadMoreFooter.delegate = self
         loadMoreFooter.setLoadMoreButtonVisibility(isHidden: viewModel?.isSearchActive() ?? false)
         return loadMoreFooter
