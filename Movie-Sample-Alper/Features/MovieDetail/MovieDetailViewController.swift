@@ -72,11 +72,7 @@ class MovieDetailViewController: BaseViewController {
     }
         
     private func didLikeChange() -> Bool {
-        if viewModel?.initialLikeState == viewModel?.finalLikeState {
-            return false
-        } else {
-            return true
-        }
+        return viewModel?.initialLikeState != viewModel?.finalLikeState
     }
 }
 
@@ -105,10 +101,6 @@ extension MovieDetailViewController: MovieDetailViewModelDelegate {
     }
     
     func changeRatingStar(isFavorite: Bool) {
-        if isFavorite {
-            self.starButton.image = UIImage(systemName: MovieAppGlobalConstants.filledStarIcon)
-        } else {
-            self.starButton.image = UIImage(systemName: MovieAppGlobalConstants.starIcon)
-        }
+        self.starButton.image = UIImage(systemName: isFavorite ? MovieAppGlobalConstants.filledStarIcon :  MovieAppGlobalConstants.starIcon)
     }
 }

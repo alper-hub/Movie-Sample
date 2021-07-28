@@ -93,11 +93,9 @@ class MovieDetailViewModel: MovieDetailViewModelProtocol {
             favoriteMovies = savedFavoriteMovies
         }
         
-        for savedMovieID in favoriteMovies {
-            if savedMovieID == self.currentMovieId {
-                isFavorite = true
-                initialLikeState = isFavorite
-            }
+        for savedMovieID in favoriteMovies where savedMovieID == self.currentMovieId {
+            isFavorite = true
+            initialLikeState = isFavorite
         }
     }
     
