@@ -1,14 +1,13 @@
 //
-//  Movie_Sample_AlperTests.swift
+//  LoadMoreCollectionReusableViewTests.swift
 //  Movie-Sample-AlperTests
 //
-//  Created by Alper Tufan on 7.07.2021.
+//  Created by Alper Tufan on 27.12.2021.
 //
 
 import XCTest
-@testable import Movie_Sample_Alper
 
-class Movie_Sample_AlperTests: XCTestCase {
+class LoadMoreCollectionReusableViewTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
