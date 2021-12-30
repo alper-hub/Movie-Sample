@@ -49,11 +49,11 @@
 		5586E1712778F102007A2620 /* MovieListWebServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5586E1702778F102007A2620 /* MovieListWebServiceTests.swift */; };
 		5586E1732778FDE2007A2620 /* URLSessionProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5586E1722778FDE2007A2620 /* URLSessionProviderTests.swift */; };
 		5586E178277A20E7007A2620 /* MovieListViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5586E177277A20E7007A2620 /* MovieListViewControllerTests.swift */; };
-		5586E17A277A20FB007A2620 /* MovieListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5586E179277A20FB007A2620 /* MovieListViewModelTests.swift */; };
 		5586E17C277A2122007A2620 /* MovieDetailViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5586E17B277A2122007A2620 /* MovieDetailViewControllerTests.swift */; };
 		5586E17E277A2136007A2620 /* MovieDetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5586E17D277A2136007A2620 /* MovieDetailViewModelTests.swift */; };
 		5586E186277A2834007A2620 /* MovieListCollectionCellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5586E185277A2834007A2620 /* MovieListCollectionCellTests.swift */; };
 		5586E188277A2857007A2620 /* LoadMoreCollectionReusableViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5586E187277A2857007A2620 /* LoadMoreCollectionReusableViewTests.swift */; };
+		5586E18B277A4970007A2620 /* MovieListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5586E179277A20FB007A2620 /* MovieListViewModelTests.swift */; };
 		71004FF8A1BAA9B0F723BFED /* libPods-Movie-Sample-Alper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E4B67DF29E088712865463A /* libPods-Movie-Sample-Alper.a */; };
 /* End PBXBuildFile section */
 
@@ -664,9 +664,9 @@
 				5586E17E277A2136007A2620 /* MovieDetailViewModelTests.swift in Sources */,
 				5586E186277A2834007A2620 /* MovieListCollectionCellTests.swift in Sources */,
 				5586E1732778FDE2007A2620 /* URLSessionProviderTests.swift in Sources */,
+				5586E18B277A4970007A2620 /* MovieListViewModelTests.swift in Sources */,
 				5586E1712778F102007A2620 /* MovieListWebServiceTests.swift in Sources */,
 				5586E188277A2857007A2620 /* LoadMoreCollectionReusableViewTests.swift in Sources */,
-				5586E17A277A20FB007A2620 /* MovieListViewModelTests.swift in Sources */,
 				5586E17C277A2122007A2620 /* MovieDetailViewControllerTests.swift in Sources */,
 				5586E178277A20E7007A2620 /* MovieListViewControllerTests.swift in Sources */,
 			);

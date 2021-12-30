@@ -21,7 +21,7 @@ class MovieDetailViewController: BaseViewController {
     // MARK: - Outlets
     
     @IBOutlet private weak var movieImage: UIImageView!
-    @IBOutlet private weak var movieTitleLabel: UILabel!
+    @IBOutlet weak var movieTitleLabel: UILabel!
     @IBOutlet private weak var movieOverviewLabel: UILabel!
     @IBOutlet private weak var voteCountOuterView: UIView!
     @IBOutlet private weak var voteCountLabel: UILabel!

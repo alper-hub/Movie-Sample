@@ -41,6 +41,7 @@ class MovieListViewModel: MovieListViewModelProtocol {
     var displayedData: [MovieListModel?]
     var currentPage: Int
     var webService = MovieListWebService()
+
     // MARK: - Dependencies
     
     weak var delegate: MovieListViewModelDelegate?

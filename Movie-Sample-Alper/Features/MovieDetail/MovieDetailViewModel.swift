@@ -37,8 +37,8 @@ class MovieDetailViewModel: MovieDetailViewModelProtocol {
 
     let defaults = UserDefaults.standard
     
-    private var favoriteMovies: [Int]
-    private var movieDetailModel: MovieDetailModel?
+    var favoriteMovies: [Int]
+    var movieDetailModel: MovieDetailModel?
     var initialLikeState: Bool
     var finalLikeState: Bool
     var isFavorite: Bool
